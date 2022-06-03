@@ -1,9 +1,10 @@
 {
-    "verbose": 2,
+    "showLicense": false,
+    "verbose": 0,
     "build": ["exit 0"],
     "setup": ["exit 0"],
     "run": "exit 0",
     "runTimeout": 2,
-    "checkFile": "program.pck",
+    "checkFile": "",
     "scoreExitCode": false
 }

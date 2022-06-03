@@ -1,9 +1,10 @@
 // test-runner.js
-// v0.9.0 code pre-release
+// A script to automate building and testing of your programs
+// v0.9.1 Licensing and incomplete documentation
 // https://github.com/max8539/test-runner
 
-// A script to build and test your programs.
-// This is not a test generator - YOU need to write your own tests.
+// test-runner.js Copyright (C) 2022 Max Yuen. 
+// Licensed under GNU GPLv3. See https://www.gnu.org/licenses/gpl-3.0.html
 
 // Ensure that your test files and tests/testconfig.json
 // are set up properly before running this script.
@@ -12,13 +13,21 @@
 // To run this script while in its directory:
 // $ node test-runner.js
 
+const config = require("./tests/testconfig.json");
+
+console.log("test-runner.js v0.9.1");
+if (config.showLicense) {
+    console.log("Copyright (C) 2022 Max Yuen.");
+    console.log("Licensed under GNU GPLv3. See https://www.gnu.org/licenses/gpl-3.0.html");
+}
+console.log("")
 
 const fs = require("fs");
 const path = require("path");
 const util = require("util");
 const execPromise = util.promisify(require("child_process").exec);
 
-const config = require("./tests/testconfig.json");
+
 const testsDir = path.join(__dirname,"tests");
 const fileExt = config.checkFile.split(".").slice(-1)[0];
 
@@ -47,6 +56,7 @@ function vvb (text) {
     }
 }
 
+// Function to handle exit codes in the event of an error
 function errorExit () {
     if (config.scoreExitCode) {
         process.exit(100);
@@ -75,16 +85,14 @@ function checkTests () {
         i += 1;
     }
 
+    // Check for test checking failure conditions
     if (i == 1) {
-        // (while loop above never entered, so i never incremented)
         console.error(`${RED}No tests could be found. Cannot proceed.${RESET}`);
         errorExit();
     } else if (!valid) {
-        // 
         console.error(`${RED}Some of your tests do not have an expected stdout, stderr, file output or error file. Cannot proceed.${RESET}`);
         errorExit();
     }
-
     return;
 }
 
@@ -105,6 +113,8 @@ async function build () {
     return;
 }
 
+// Runs setup functions using commands specified in config.setup array, in order.
+// Prints error message and exits if any command produces an error
 async function setup () {
     for (let cmd of config.setup) {
         vvb(cmd);
@@ -115,11 +125,10 @@ async function setup () {
             errorExit();
         }
     }
-
     return;
 }
 
-// Check that the program's stdout matches the expected stdout for test i
+// Check that the program's stdout matches the expected stdout for test
 function checkStdout (i, testResult) {
     if (!fs.existsSync(path.join(testsDir, `test${i}.out.txt`))) {return true}
     let out = fs.readFileSync(path.join(testsDir,`test${i}.out.txt`));
@@ -132,7 +141,7 @@ function checkStdout (i, testResult) {
     return true;
 }
 
-// Check that the program's stderr matches the expected stderr for test i
+// Check that the program's stderr matches the expected stderr for test
 function checkStderr (i, testResult) {
     if (!fs.existsSync(path.join(testsDir,`test${i}.err.txt`))) {return true}
     let err = fs.readFileSync(path.join(testsDir,`test${i}.err.txt`));
@@ -145,7 +154,7 @@ function checkStderr (i, testResult) {
     return true;
 }
 
-// Check that the program's file matches with the test file for test i
+// Check that the program's file matches with the test file for test
 function checkFile (i) {
     if (!fs.existsSync(path.join(testsDir, `test${i}.file.${fileExt}`))) {return true}
     let file, testFile; let fileError = false;
@@ -168,8 +177,7 @@ function checkFile (i) {
 
 
 
-// Function for running individual tests, 
-// returns true/false test success status
+// Function for running individual tests, returns true/false test success status
 async function testRunner (i) {
     let testResult;
     let allowError = false;
@@ -245,7 +253,6 @@ async function runTests () {
     console.log(`${colour}${numSuccess} of ${numTests} tests passed (${testPrecent}%).${RESET}`);
 
     return testPrecent;
-
 }
 
 async function main() {
@@ -257,6 +264,8 @@ async function main() {
     vb("Build complete.");
     vb("Running tests...");
     let testPercent = await runTests();
+    
+    // Set exit code if required
     let exitCode = 0;
     if (config.scoreExitCode) {exitCode = 100 - testPercent} 
     process.exit(exitCode);
