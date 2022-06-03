@@ -1,10 +1,11 @@
 // test-runner.js
 // A script to automate building and testing of your programs
-// v0.9.1 Licensing and incomplete documentation
+// v0.9.2 License change
 // https://github.com/max8539/test-runner
 
 // test-runner.js Copyright (C) 2022 Max Yuen. 
-// Licensed under GNU GPLv3. See https://www.gnu.org/licenses/gpl-3.0.html
+// Licensed under the Apache License, Version 2.0. 
+// See https://www.apache.org/licenses/LICENSE-2.0
 
 // Ensure that your test files and tests/testconfig.json
 // are set up properly before running this script.
@@ -18,7 +19,8 @@ const config = require("./tests/testconfig.json");
 console.log("test-runner.js v0.9.1");
 if (config.showLicense) {
     console.log("Copyright (C) 2022 Max Yuen.");
-    console.log("Licensed under GNU GPLv3. See https://www.gnu.org/licenses/gpl-3.0.html");
+    console.log("Licensed under the Apache License, Version 2.0.");
+    console.log("See https://www.apache.org/licenses/LICENSE-2.0");
 }
 console.log("")
 

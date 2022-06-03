@@ -8,7 +8,7 @@ test-runner.js is run using Node.js. If not already installed on your system, yo
 
 test-runner.js should work on most Linux and Unix-like systems. It will also likely work on macOS.test-runner.js does not currently work on Windows due to differences in command line syntax between Unix-like systems and Windows.
 
-**test-runner.js Copyright © 2022 Max Yuen. Licensed under GNU GPLv3. See [https://www.gnu.org/licenses/gpl-3.0.html](https://www.gnu.org/licenses/gpl-3.0.html)**
+**test-runner.js Copyright © 2022 Max Yuen.  Licensed under the Apache License, Version 2.0. See [https://www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0)**
 
 *It is kindly asked that if you include files from this repository in your projects and their repositories, that you do not remove ownership information, licensing information and references to this repository from the files.*
 
@@ -24,7 +24,8 @@ test-runner.js should work on most Linux and Unix-like systems. It will also lik
 If any files are missing, or have since been updated to a newer version, you can re-download them from https://github.com/max8539/test-runner
 
 ## Release History
-**v0.9.1 Licensing and incomplete documentation (latest)**  
+**v0.9.2 License change (latest)**
+v0.9.1 Licensing and incomplete documentation 
 v0.9.0 Code pre-release
 
 # How to Use
