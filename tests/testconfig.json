@@ -1,0 +1,9 @@
+{
+    "verbose": 2,
+    "build": ["exit 0"],
+    "setup": ["exit 0"],
+    "run": "exit 0",
+    "runTimeout": 2,
+    "checkFile": "program.pck",
+    "scoreExitCode": false
+}

@@ -1,0 +1,5 @@
+*
+!.gitignore
+!exampletest1.in.txt
+!example1.out.txt
+!testconfig.json

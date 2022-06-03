@@ -1,0 +1,6 @@
+*
+!.gitignore
+!tests
+!test-runner.js
+!README.md
+!README.pdf
