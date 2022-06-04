@@ -28,10 +28,11 @@ test-runner.js should work on most Linux and Unix-like systems. It will also lik
     - `exampletest1.in.txt` and `exampletest1.out.txt` - a sample test input and test output file.
 - `README.md` and `README.pdf`, both of which contain the same information.
 
-If any files are missing, or have since been updated to a newer version, you can re-download them from https://github.com/max8539/test-runner, or run `git pull` if using Git to maintain the repository on your computer.
+If any files are missing, or have since been updated to a newer version, you can re-download them from [https://github.com/max8539/test-runner](https://github.com/max8539/test-runner), or run `git pull` if using Git to maintain the repository on your computer.
 
 ## Release History
-**v1.0.0 Full Release (latest)**  
+**v1.0.1 Documentation Fixes (latest)**
+v1.0.0 Full Release
 v0.9.2 License Change  
 v0.9.1 Licensing and Incomplete Documentation  
 v0.9.0 Code Pre-release  

@@ -1,6 +1,6 @@
 // test-runner.js
 // A script to automate building and testing of your programs
-// v1.0.0 Full Release
+// v1.0.1 Documentation Fixes
 // https://github.com/max8539/test-runner
 
 // test-runner.js Copyright (C) 2022 Max Yuen. 
@@ -16,7 +16,7 @@
 
 const config = require("./tests/testconfig.json");
 
-console.log("test-runner.js v1.0.0");
+console.log("test-runner.js v1.0.1");
 if (config.showLicense) {
     console.log("Copyright (C) 2022 Max Yuen.");
     console.log("Licensed under the Apache License, Version 2.0.");
