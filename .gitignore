@@ -1,17 +1,23 @@
 # .gitignore
-# v0.9.2 License change
 # https://github.com/max8539/test-runner
 
-# DO NOT CHANGE OR REMOVE THIS FILE.
+# DO NOT CHANGE OR REMOVE THIS FILE, unless you are
+# adding a new file to test-runner.js, in which case
+# you should add an exception for your file, similar to
+# the other files listed below.
+
 # This file is used to prevent people from inadvertently adding
-# files from their projects to the test-runner repository.
+# files from their projects to the test-runner.js repository.
 
 *
 !.gitignore
-!tests/testconfig.json
-!tests/exampletest1.in.txt
-!tests/exampletest1.out.txt
 !test-runner.js
 !README.md
 !README.pdf
 !LICENSE
+!tests
+
+tests/*
+!tests/config.json
+!tests/exampletest1.in.txt
+!tests/exampletest1.out.txt

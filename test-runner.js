@@ -1,6 +1,6 @@
 // test-runner.js
 // A script to automate building and testing of your programs
-// v0.9.2 License change
+// v1.0.0 Full Release
 // https://github.com/max8539/test-runner
 
 // test-runner.js Copyright (C) 2022 Max Yuen. 
@@ -16,7 +16,7 @@
 
 const config = require("./tests/testconfig.json");
 
-console.log("test-runner.js v0.9.1");
+console.log("test-runner.js v1.0.0");
 if (config.showLicense) {
     console.log("Copyright (C) 2022 Max Yuen.");
     console.log("Licensed under the Apache License, Version 2.0.");
@@ -29,9 +29,17 @@ const path = require("path");
 const util = require("util");
 const execPromise = util.promisify(require("child_process").exec);
 
+let fileExt;
 
 const testsDir = path.join(__dirname,"tests");
-const fileExt = config.checkFile.split(".").slice(-1)[0];
+
+// Get file extention from config.checkFile
+let fileNameGroups = config.checkFile.split(".");
+if (fileNameGroups.length <= 1) {
+    fileExt = "";
+} else {
+    fileExt = `.${fileNameGroups.splice(-1)[0]}`
+}
 
 // These character sequences instruct the terminal
 // to display coloured bold text
@@ -43,27 +51,57 @@ const RESET = "\x1b[0m";
 // Functions for printing verbose text based on 
 // verbosity level in testconfig.json
 function vb (text) {
-    if (config.verbose >= 1) {
-        console.log(text);
-    }
+    if (config.verbose >= 1) {console.log(text)}
 }
 function vbError (text) {
-    if (config.verbose >= 1) {
-        console.error(text);
-    }
+    if (config.verbose >= 1) {console.error(text)}
 }
 function vvb (text) {
-    if (config.verbose >= 2) {
-        console.log(text);
-    }
+    if (config.verbose >= 2) {console.log(text)}
 }
 
 // Function to handle exit codes in the event of an error
 function errorExit () {
     if (config.scoreExitCode) {
-        process.exit(100);
+        process.exit(101);
     } else {
         process.exit(1);
+    }
+}
+
+// Checks that all settings in config.json appear to be valid
+// Exit if any are invalid
+function checkSettings () {
+    // Check that settings are of the correct type
+    let validSettings = true;
+    if (typeof(config.build) != "object") (validSettings = false)
+    if (typeof(config.setup) != "object") {validSettings = false}
+    if (typeof(config.run) != "string") {validSettings = false}
+    if (typeof(config.runTimeout) != "number") {validSettings = false}
+    if (typeof(config.checkFile) != "string") {validSettings = false}
+    if (typeof(config.scoreExitCode) != "boolean") {validSettings = false}
+    if (!validSettings) {
+        console.error(`${RED}Some of your settings are invalid. Cannot proceed.${RESET}`);
+        errorExit();
+    }
+
+    // Check commands appear to be valid
+    // (all are strings, no empty strings)
+    for (let cmd of config.build) {
+        if (typeof(cmd) != "string" || cmd == "") {
+            console.error(`${RED}One or more of your build commands are invalid. Cannot proceed.${RESET}`);
+            errorExit();
+        }
+    }
+    for (let cmd of config.setup) {
+        if (typeof(cmd) != "string" || cmd == "") {
+            console.error(`${RED}One or more of your setup commands are invalid. Cannot proceed.${RESET}`);
+            errorExit();
+        }
+    }
+    if (typeof(config.run) != "string" || config.run == "") {
+        console.error(`${RED}Your run command is invalid. Cannot proceed.${RESET}`);
+            errorExit();
     }
 }
 
@@ -72,16 +110,15 @@ function errorExit () {
 function checkTests () {
     let i = 1;
     let valid = true;
-    let outExists, errExists, fileExists, errorExists;
+    let outExists, errExists, fileExists;
     
     // Iterate through test file groups while they exist, starting with test1
     while (fs.existsSync(path.join(testsDir, `test${i}.in.txt`))) {
         outExists = fs.existsSync(path.join(testsDir,`test${i}.out.txt`));
         errExists = fs.existsSync(path.join(testsDir,`test${i}.err.txt`));
-        errorExists = fs.existsSync(path.join(testsDir,`test${i}.error`));
-        fileExists = fs.existsSync(path.join(testsDir,`test${i}.file.${fileExt}`));
-        if (!(outExists || errExists || fileExists || errorExists)) {
-            vbError(`Test ${i} does not have an expected stdout, stderr, file output or error file.`);
+        fileExists = fs.existsSync(path.join(testsDir,`test${i}.file${fileExt}`));
+        if (!(outExists || errExists || fileExists)) {
+            vbError(`Test ${i} does not have an expected stdout, stderr or file output file.`);
             valid = false;
         }
         i += 1;
@@ -92,12 +129,11 @@ function checkTests () {
         console.error(`${RED}No tests could be found. Cannot proceed.${RESET}`);
         errorExit();
     } else if (!valid) {
-        console.error(`${RED}Some of your tests do not have an expected stdout, stderr, file output or error file. Cannot proceed.${RESET}`);
+        console.error(`${RED}Some of your tests do not have an expected stdout, stderr or file output file. Cannot proceed.${RESET}`);
         errorExit();
     }
     return;
 }
-
 
 // Builds program using commands specified in config.build array, in order
 // Prints error message and exits if any command produces an error
@@ -133,6 +169,7 @@ async function setup () {
 // Check that the program's stdout matches the expected stdout for test
 function checkStdout (i, testResult) {
     if (!fs.existsSync(path.join(testsDir, `test${i}.out.txt`))) {return true}
+    vvb("Checking stdout...");
     let out = fs.readFileSync(path.join(testsDir,`test${i}.out.txt`));
     if (testResult.stdout != out) {
         vb("Your program's stdout did not match the expected stdout.");
@@ -146,6 +183,7 @@ function checkStdout (i, testResult) {
 // Check that the program's stderr matches the expected stderr for test
 function checkStderr (i, testResult) {
     if (!fs.existsSync(path.join(testsDir,`test${i}.err.txt`))) {return true}
+    vvb("Checking stderr...");
     let err = fs.readFileSync(path.join(testsDir,`test${i}.err.txt`));
     if (testResult.stderr != err) {
         vb("Your program's stderr did not match the expected stderr.");
@@ -158,9 +196,11 @@ function checkStderr (i, testResult) {
 
 // Check that the program's file matches with the test file for test
 function checkFile (i) {
-    if (!fs.existsSync(path.join(testsDir, `test${i}.file.${fileExt}`))) {return true}
+    if (config.checkFile == "") {return true}
+    if (!fs.existsSync(path.join(testsDir, `test${i}.file${fileExt}`))) {return true}
+    vvb(`Checking file ${config.checkFile}...`);
     let file, testFile; let fileError = false;
-    testFile = fs.readFileSync(path.join(testsDir, `test${i}.file.${fileExt}`).toString());
+    testFile = fs.readFileSync(path.join(testsDir, `test${i}.file${fileExt}`).toString());
     try {file = fs.readFileSync(path.join(__dirname,config.checkFile)).toString()}
     catch (err) {
         vb(`Your program was expected to create a file named ${config.checkFile}, but it either does not exist or could not be read.`)
@@ -177,14 +217,13 @@ function checkFile (i) {
     return true;
 }
 
-
-
 // Function for running individual tests, returns true/false test success status
 async function testRunner (i) {
     let testResult;
     let allowError = false;
     let success = true;
-    let expectError = fs.existsSync(path.join(testsDir,`test${i}.error`));
+    const expectError = fs.existsSync(path.join(testsDir,`test${i}.error`));
+    if (expectError) {vvb("Expecting an error from this test.")}
     
     // Run test, handle non-zero exit codes
     try {
@@ -230,7 +269,7 @@ async function runTests () {
     // update score based on result from testRunner()
     while (fs.existsSync(path.join(testsDir,`test${i}.in.txt`))) {
         vb(`Test ${i}`)
-        setup();
+        await setup();
         if (await testRunner(i)) {
             numSuccess += 1;
         }
@@ -241,9 +280,9 @@ async function runTests () {
     // Conditions for colours:
     // 100% (all passed) => GREEN
     // >=90% or only 1 test failed, >0 tests passed => YELLOW
-    // <90% and more than 1 test failed => RED
-    let numTests = i - 1;
-    let testPrecent = Math.round(numSuccess / numTests * 100);
+    // Otherwise => RED
+    const numTests = i - 1;
+    const testPrecent = Math.round(numSuccess / numTests * 100);
     let colour;
     if (numSuccess == numTests) {
         colour = GREEN;
@@ -257,7 +296,12 @@ async function runTests () {
     return testPrecent;
 }
 
+// async main function to allow await of asynchronous
+// execPromise functions used throughout test-runner.js
 async function main() {
+    vb("Checking your settings...");
+    checkSettings();
+    vb("All good.");
     vb("Checking your test files...");
     checkTests();
     vb("All good.");
@@ -265,7 +309,7 @@ async function main() {
     await build();
     vb("Build complete.");
     vb("Running tests...");
-    let testPercent = await runTests();
+    const testPercent = await runTests();
     
     // Set exit code if required
     let exitCode = 0;
