@@ -4,7 +4,7 @@
     "build": ["exit 0"],
     "setup": ["exit 0"],
     "run": "exit 0",
-    "runTimeout": 5,
+    "runTimeout": 2,
     "checkFile": "",
     "scoreExitCode": false
 }

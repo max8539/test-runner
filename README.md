@@ -1,4 +1,5 @@
-[Skip to documentation](#how-to-use-test-runnerjs)
+[Quick Start Guide](#quick-start-guide)  
+[Skip to documentation](#test-runnerjs-documentation)
 
 # test-runner.js
 **A script to automate building and testing of your programs**
@@ -13,6 +14,8 @@ It is recommended to download (or `git clone`) this repository and save it to a 
 **test-runner.js is run using Node.js.** If not already installed on your system, you may download it from the [officlal Node.js website](https://nodejs.org/), or consider using a version manager like [nvm](https://github.com/nvm-sh/nvm).
 
 test-runner.js should work on most Linux and Unix-like systems. It will also likely work on macOS. test-runner.js does not currently work on Windows due to differences in command line syntax between Unix-like systems and Windows.
+
+**NOTICE to System Administrators:** test-runner.js uses a variant of `child_process.exec()` to run user-specified commands on your system. If the Node.js runtime is installed on your system as a set-uid or set-gid executable, users who run test-runner.js may be able to use it to to run commands with a privelaged level of access to your system.
 
 **test-runner.js Copyright © 2022 Max Yuen.**  
 **Licensed under the Apache License, Version 2.0. See [https://www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0)**
@@ -46,7 +49,22 @@ If you would like to take up an issue and implement the changes (especially ones
 
 If you believe you have found a bug, please report it by creating an issue at [https://github.com/max8539/test-runner/issues](https://github.com/max8539/test-runner/issues) with the label bug-report, and provide as much useful information as possible, including all output and any error messages from Node.js or elsewhere. If you are able to provide any files used to allow maintainers to attempt to replicate the problem, that would be much appreciated, however not a requirement.
 
-# How to Use test-runner.js
+# Quick Start Guide
+This quick start guide walks through testing a simple program written in the C programming language, compiled with gcc, and only makes use of terminal input and output (`stdin` and `stdout` only). If you are testing programs or scripts written in other languages, you may wish to use one of the `tests/testconfig.json` templates (coming soon).
+
+1. Copy `test-runner.js` and the `tests` directory, including its contents, in the root directory of your project.
+2. Navigate to the `tests` directory, and open `testconfig.json` to modify the test settings.
+3. Inside the array (square brackers) next to `"build":`, enter the command used to compile your code. The build setting should look something like `"build": ["gcc code.c -o program"]`.
+4. Next to `"run":`, enter the command used to run the executable produced by the compiler. The run setting should look something like `"run": "./program"`.
+5. Leave the other values in `testconfig.json` as-is, and close the file. For more advanced settings, see [2 - Configuring Test Settings](#2---configuring-test-settings) in the full documentation below.
+6. Inside the `tests` directory, create a file named `test1.in.txt`. Inside this file, write out the input to be passed to your code, ensuring that any whitespace and newlines are consistent with what your program expects. If your program prompts for inputs multiple times, each input should be placed on a separate line.
+7. Inside the `tests` directory, create a file named `test1.out.txt`. Inside this file, write out the exact output which you expect your program to produce when given the contents of `test1.in.txt` as its input, including any whitespace and newlines which your program is expected to print. If lines are printed to prompt for input, these should be included too.
+8. Open a terminal, switch to the root directory of your project, and run the command `node test-runner.js`. If you have done everything correctly, and your code was compiled successfully, you should be given a score out of 1. Did your program manage to pass your test?
+9. Continue to write tests, naming your files `test2.in.txt`, `test2.out.txt`, `test3.in.txt`, `test3.out.txt` etc. to comprehensively test your program. Re-run test-runner.js to test your program with your new tests. For more advanced testing options, see [3 - Writing your Tests](#3---writing-your-tests) in the full documentation below.
+
+If you encounter any errors produced by test-runner.js, see [4.3 - Troubleshooting Error Messages](#43---troubleshooting-error-messages) for troubleshooting help.
+
+# test-runner.js Documentation
 
 ### Contents
 
@@ -75,12 +93,16 @@ If you believe you have found a bug, please report it by creating an issue at [h
     *[4.4 - Other Troubleshooting](#44---other-troubleshooting)*  
 
 ## 1 - Setting Up your Project for Testing
-Copy test-runner.js and the `tests` directory, including its contents, in the root directory of your project. Other files in the repository need not be copied.
+Copy `test-runner.js` and the `tests` directory, including its contents, in the root directory of your project. Other files in the repository need not be copied.
 
 Install Node.js if it is not already installed on your system. 
 
 ## 2 - Configuring Test Settings
-Test settings are configured by modifying values in the `tests/testconfig.json` file. The following settings are available:
+Test settings are configured by modifying values in the `tests/testconfig.json` file. The settings available are described below.
+
+You may wish to enter the values in `tests/testconfig.json` from scratch, in which case, copy the testconfig.json provided in this repository. Alternately you may wish to build upon one of the templates which can be found here (coming soon).
+
+Note that updates to test-runner.js may add additional fields in `tests/testconfig.json`, or change the data types of existing fields. If you notice test-runner.js running into errors while reading your settings, you should check back here for any recent changes.
 
 **WARNING:** Ensure that you enter settings correctly in `tests/testconfig.json` as the value in each of the key-value pairs, like `"key":value`, noting the semicolon between the key and the value. Also ensure that the the data type you enter for each value matches the data types specified below.
 
@@ -212,16 +234,18 @@ While error messages which causes test-runner.js to stop are always printed, use
 
 One of the following error messages may be output by test-runner.js if it runs into an error which causes it to stop:
 - **Some of your settings are invalid.**
-    - The data types of some values in `tests/config.json` are incorrect.
-    - Double check the values in `tests/config.json` (see [2 - Configuring Test Settings](#2---configuring-test-settings))
+    - Some fields and/or values in `tests/testconfig.json` may be missing.
+    - The data types of some values in `tests/testconfig.json` may be incorrect.
+    - If you recently updated test-runner.js, some of the requirements for `tests/testconfig.json` may have changed.
+    - Double check the values in `tests/testconfig.json` and their requirements (see [2 - Configuring Test Settings](#2---configuring-test-settings))
 - **One or more of your build commands are invalid.**
-    - One or more of the commands specified in the `"build"` array of `tests/config.json` is either an empty string or not a string. 
+    - One or more of the commands specified in the `"build"` array of `tests/testconfig.json` is either an empty string or not a string. 
     - Double check that all the commands are valid commands and are stored as strings in the array (see [2.3 - Build Commands](#23---build-commands)).
 - **One or more of your setup commands are invalid.**
-    - One or more of the commands specified in the `"build"` array of `tests/config.json` is either an empty string or not a string. 
+    - One or more of the commands specified in the `"build"` array of `tests/testconfig.json` is either an empty string or not a string. 
     - Double check that all the commands are valid commands and are stored as strings in the array (see [2.4 - Test Setup Commands](#24---test-setup-commands)).
 - **Your run command is invalid.**
-    - The command saved as the value for `"run"` in `tests/config.json` is either an empty string or not a string
+    - The command saved as the value for `"run"` in `tests/testconfig.json` is either an empty string or not a string
     - Double check that the specified run command is valid, and is stored as a string (see [2.5 - Run Program Command](#25---run-program-command)).
 - **No tests could be found.**
     - test-runner.js could not find your test files.
