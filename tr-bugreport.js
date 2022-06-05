@@ -29,8 +29,13 @@ async function main () {
     fs.writeFileSync(path.join(__dirname,"tests/testconfig.json"),JSON.stringify(newConfig));
     
     console.log("Running test-runner.js...");
-    try {await execPromise("node test-runner.js > bugreport.log");}
-    catch (err) {console.log(`${YELLOW}test-runner.js encountered an error.${RESET}`);}
+    let output;
+    try {output = await execPromise("node test-runner.js");}
+    catch (err) {
+        console.log(`${YELLOW}test-runner.js encountered an error.${RESET}`);
+        output = err;
+    }
+    fs.writeFileSync(path.join(__dirname,"bugreport.log"),output.stdout + output.stderr);
     console.log(`${GREEN}test-runner.js output saved to bugreport.log.${RESET}`);
     console.log("Please create a bug report at https://github.com/max8539/test-runner/issues");console.log("and upload bugreport.log to include with your report.");
 

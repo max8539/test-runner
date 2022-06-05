@@ -113,7 +113,7 @@ function checkSettings () {
     // (all are strings, no empty strings)
     debug("Check build commands");
     for (let cmd of config.build) {
-        debug(cmd);
+        debug(`${cmd} ${typeof(cmd)}`);
         if (typeof(cmd) != "string" || cmd == "") {
             console.error(`${RED}One or more of your build commands are invalid. Cannot proceed.${RESET}`);
             errorExit();
