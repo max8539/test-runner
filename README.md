@@ -9,13 +9,13 @@ test-runner.js is a script which can be used to automate testing of programs. It
 
 One of the main goals of test-runner.js was to make the script portable, and as user-friendly to non-JavaScript developers as possible. As such, test-runner.js avoids the use of npm and external packages entirely, only using packages which are built in to Node.js.
 
-It is recommended to download (or `git clone`) this repository and save it to a central location in your user's filesystem, then copy `test-runner.js` and the `tests` directory into the root directories of the projects where you wish to use it.
+It is recommended to download (or `git clone`) this repository and save it to a central location in your user's filesystem, then copy `test-runner.js`and the `tests` directory into the root directories of the projects where you wish to use it. 
 
 **test-runner.js is run using Node.js.** If not already installed on your system, you may download it from the [officlal Node.js website](https://nodejs.org/), or consider using a version manager like [nvm](https://github.com/nvm-sh/nvm).
 
 test-runner.js should work on most Linux and Unix-like systems. It will also likely work on macOS. test-runner.js does not currently work on Windows due to differences in command line syntax between Unix-like systems and Windows.
 
-**NOTICE to System Administrators:** test-runner.js uses a variant of `child_process.exec()` to run user-specified commands on your system. If the Node.js runtime is installed on your system as a set-uid or set-gid executable, users who run test-runner.js may be able to use it to to run commands with a privelaged level of access to your system.
+**NOTICE to System Administrators:** test-runner.js uses a variant of `child_process.exec()` to run user-specified commands on your system. If the Node.js runtime is installed on your system as a set-uid or set-gid executable, users who run test-runner.js may be able to use it to run commands with a privileged level of access to your system.
 
 **test-runner.js Copyright © 2022 Max Yuen.**  
 **Licensed under the Apache License, Version 2.0. See [https://www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0)**
@@ -24,6 +24,7 @@ test-runner.js should work on most Linux and Unix-like systems. It will also lik
 
 ## Your Download Should Come With the Following Files:
 - `test-runner.js` - the main script to be run
+- `tr-bugreport.js` - a script which should be run when creating a bug report
 - a `.gitignore` file
 - a `LICENSE` file
 - a `tests` directory containing:
@@ -34,12 +35,13 @@ test-runner.js should work on most Linux and Unix-like systems. It will also lik
 If any files are missing, or have since been updated to a newer version, you can re-download them from [https://github.com/max8539/test-runner](https://github.com/max8539/test-runner), or run `git pull` if using Git to maintain the repository on your computer.
 
 ## Release History
-**v1.0.0 Full Release (latest)**  
+**v1.1.0 Check Commands and Debugging Update (latest)**  
+v1.0.0 Full Release  
 v0.9.2 License Change  
 v0.9.1 Licensing and Incomplete Documentation  
 v0.9.0 Code Pre-release  
 
-## Improvements, Contributing and Bug Reports
+## Improvements and Contributing
 You are welcome to suggest improvements to test-runner.js. The best way to do so is through the Issues Board at [https://github.com/max8539/test-runner/issues](https://github.com/max8539/test-runner/issues).  
 While suggestions are much appreciated, there is no guarantee every suggestion will be acted upon.
 
@@ -47,20 +49,21 @@ If you would like to take up an issue and implement the changes (especially ones
 
 **WARNING:** Be careful not to accidentally add files from other projects to the repository. While the `.gitignore` should prevent you from adding other files if it is there, you should double check the files you are commiting before you make the commit. It is extremely difficult, if not impossible, to remove references to a file in Git's history once a commit has been made, especially if you have since pushed that commit to an online repository.
 
-If you believe you have found a bug, please report it by creating an issue at [https://github.com/max8539/test-runner/issues](https://github.com/max8539/test-runner/issues) with the label bug-report, and provide as much useful information as possible, including all output and any error messages from Node.js or elsewhere. If you are able to provide any files used to allow maintainers to attempt to replicate the problem, that would be much appreciated, however not a requirement.
+## Reporting Bugs
+If you believe you have found a bug, please report it by creating an issue at [https://github.com/max8539/test-runner/issues](https://github.com/max8539/test-runner/issues) with the label bug-report. Copy `tr-bugreport.js` from this repository to the same directory as `test-runner.js` where you encountered the bug, run the terminal command `node tr-bugreport.js` from that directory, and upload the file it creates as part of your bug report. Please also provide a description of what you did in the lead-up to encountereing the bug. If you are able to provide any other files used to allow maintainers to attempt to replicate the problem, that would be much appreciated, however not a requirement.
 
 # Quick Start Guide
-This quick start guide walks through testing a simple program written in the C programming language, compiled with gcc, and only makes use of terminal input and output (`stdin` and `stdout` only). If you are testing programs or scripts written in other languages, you may wish to use one of the `tests/testconfig.json` templates (coming soon).
+This quick start guide walks through testing a simple program written in the C programming language, compiled with gcc, and only makes use of terminal input and output (`stdin` and `stdout` only). If you are testing programs or scripts written in other languages, you may wish to use one of the `tests/testconfig.json` templates available [here](https://github.com/max8539/tr-tctemplates).
 
 1. Copy `test-runner.js` and the `tests` directory, including its contents, in the root directory of your project.
-2. Navigate to the `tests` directory, and open `testconfig.json` to modify the test settings.
+2. Navigate to the `tests` directory in your project and open `testconfig.json` to modify the test settings.
 3. Inside the array (square brackers) next to `"build":`, enter the command used to compile your code. The build setting should look something like `"build": ["gcc code.c -o program"]`.
 4. Next to `"run":`, enter the command used to run the executable produced by the compiler. The run setting should look something like `"run": "./program"`.
 5. Leave the other values in `testconfig.json` as-is, and close the file. For more advanced settings, see [2 - Configuring Test Settings](#2---configuring-test-settings) in the full documentation below.
 6. Inside the `tests` directory, create a file named `test1.in.txt`. Inside this file, write out the input to be passed to your code, ensuring that any whitespace and newlines are consistent with what your program expects. If your program prompts for inputs multiple times, each input should be placed on a separate line.
 7. Inside the `tests` directory, create a file named `test1.out.txt`. Inside this file, write out the exact output which you expect your program to produce when given the contents of `test1.in.txt` as its input, including any whitespace and newlines which your program is expected to print. If lines are printed to prompt for input, these should be included too.
-8. Open a terminal, switch to the root directory of your project, and run the command `node test-runner.js`. If you have done everything correctly, and your code was compiled successfully, you should be given a score out of 1. Did your program manage to pass your test?
-9. Continue to write tests, naming your files `test2.in.txt`, `test2.out.txt`, `test3.in.txt`, `test3.out.txt` etc. to comprehensively test your program. Re-run test-runner.js to test your program with your new tests. For more advanced testing options, see [3 - Writing your Tests](#3---writing-your-tests) in the full documentation below.
+8. Open a terminal, switch to the root directory of your project, and run the command `node test-runner.js`. If you have done everything correctly, and your code was compiled successfully, you should be given a score out of 1. Did your program pass your test?
+9. Continue to write tests, naming your files `test2.in.txt`, `test2.out.txt`, `test3.in.txt`, `test3.out.txt` etc. to comprehensively test your program. Re-run test-runner.js to test your program with your new tests. For more advanced testing options, see [3 - Writing Your Tests](#3---writing-your-tests) in the full documentation below.
 
 If you encounter any errors produced by test-runner.js, see [4.3 - Troubleshooting Error Messages](#43---troubleshooting-error-messages) for troubleshooting help.
 
@@ -77,20 +80,22 @@ If you encounter any errors produced by test-runner.js, see [4.3 - Troubleshooti
     *[2.5 - Run Program Command](#25---run-program-command)*  
     *[2.6 - Run Timeout](#26-run-timeout)*  
     *[2.7 - Specify a File to be Checked](#27-specify-a-file-to-be-checked)*  
-    *[2.8 - Returning the Final Score as the Exit Code](#28-returning-the-final-score-as-the-exit-code)*  
-    *[2.9 - Example `testconfig.json` File](#29---example-testconfigjson-file)*  
-**[3 - Writing your Tests](#3---writing-your-tests)**  
+    *[2.8 - Delete Checked File Before Each Test](#28-delete-checked-file-before-each-test)*  
+    *[2.9 - Specify Commands for Checking Tests](#29-specify-commands-for-checking-tests)*  
+    *[2.10 - Returning the Final Score as the Exit Code](#210-returning-the-final-score-as-the-exit-code)*  
+    *[2.11 - Example `testconfig.json` File](#211---example-testconfigjson-file)*  
+**[3 - Writing Your Tests](#3---writing-your-tests)**  
     *[3.1 - Input Test File](#31---input-test-file)*  
     *[3.2 - Output Test File](#32---output-test-file)*  
     *[3.3 - Error Test File](#33---error-test-file)*  
     *[3.4 - File Output File](#34---file-output-file)*  
     *[3.5 - Expected Error File](#35---expected-error-file)*  
-    *[3.6 - Example `tests` Directory](#36---example-tests-directory)*  
+    *[3.6 - Run Commands to Check Test Result](#36---run-commands-to-check-test-result)*  
+    *[3.7 - Example `tests` Directory](#37---example-tests-directory)*  
 **[4 - Running and Troubleshooting](#4---running-and-troubleshooting)**  
-    *[4.1 - Running test-runner.js](#41---running-test-runnerjs)*  
-    *[4.2 - Sequence of Events when test-runner.js is Run](#42---sequence-of-events-when-test-runnerjs-is-run)*  
-    *[4.3 - Troubleshooting Error Messages](#43---troubleshooting-error-messages)*  
-    *[4.4 - Other Troubleshooting](#44---other-troubleshooting)*  
+    *[4.1 - Running test-runner.js](#41---running-test-runnerjs)*   
+    *[4.2 - Troubleshooting Error Messages](#42---troubleshooting-error-messages)*  
+    *[4.3 - Other Troubleshooting](#43---other-troubleshooting)*  
 
 ## 1 - Setting Up your Project for Testing
 Copy `test-runner.js` and the `tests` directory, including its contents, in the root directory of your project. Other files in the repository need not be copied.
@@ -100,7 +105,7 @@ Install Node.js if it is not already installed on your system.
 ## 2 - Configuring Test Settings
 Test settings are configured by modifying values in the `tests/testconfig.json` file. The settings available are described below.
 
-You may wish to enter the values in `tests/testconfig.json` from scratch, in which case, copy the testconfig.json provided in this repository. Alternately you may wish to build upon one of the templates which can be found here (coming soon).
+You may wish to enter the values in `tests/testconfig.json` from scratch, in which case, copy the testconfig.json provided in this repository. Alternately you may wish to build upon one of the templates availalbe [here](https://github.com/max8539/tr-tctemplates).
 
 Note that updates to test-runner.js may add additional fields in `tests/testconfig.json`, or change the data types of existing fields. If you notice test-runner.js running into errors while reading your settings, you should check back here for any recent changes.
 
@@ -117,6 +122,7 @@ Set `"verbose"` to the level of verbosity (information printed) that you wish to
 - `0` - Print only the final result after running all tests, or an error message if tests could not be run.
 - `1` - Print everything in level 0. Print out the stages of the script as they are being executed. Print out the `stdout` and `stderr` of a build or setup command if it fails. Also print out the test numbers as they are run, and print out information about why your program did not pass certain tests, if this occurs.
 - `2` - Print everything in levels 0 and 1. Print out the shell commands that are run by the scrript, as they are executed in different stages of the script, and print out the stages of test checking as they happen.
+- `3` - Additional information is printed, intended for debugging purposes. **Level 3 is not recommended unless you are working to fix bugs in test-runner.js.**
 
 `"verbose"` should always be set to a numeric value.
 
@@ -149,7 +155,19 @@ If there is no file to check, set `"checkFile"` to an empty string.
 
 `"checkFile"` should always be set to a string.
 
-### 2.8 Returning the Final Score as the Exit Code
+### 2.8 Delete Checked File Before Each Test
+Set `"deleteCheckFileOnSetup"` to `true` if you would like the file specified under `"checkFile"` to be deleted before each test, if it exists. 
+Set `"deleteCheckFileOnSetup"` to `false` if you do not want the file to be deleted.
+
+`"deleteCheckFileOnSetup"` should always be set to a boolean value.
+
+### 2.9 Specify Commands for Checking Tests
+Set `"checkCmds"` to an array of zero or more commands which should be run as part of checking the result of a test. The commands should return an exit code of 0 to indicate success, or a non-zero exit code to indicate failure. All commands should be written as non-empty strings, wrapped in double quotes (this is a requirement of JSON files). These commands will be run once, in the order they are written in the array, after running your program in each test.  
+If your tests do not require any commands to be run as part of checking the result of a test, set `"checkCmds"` to an empty array.
+
+`"checkCmds"` should always be set to an array containing zero or more non-empty string elements.
+
+### 2.10 Returning the Final Score as the Exit Code
 To facilitate usage of this script in CI pipelines and other programs or scripts, you may choose for the script to return the percentage score as the exit code of the process. 
 
 If `"scoreExitCode"` is set to `true`:
@@ -160,23 +178,25 @@ If `"scoreExitCode"` is set to `false`:
 - An exit code of `1` will be returned if an error was encountered outside of running tests on your program, such as if a build or setup command encountered an error.
 - An exit code of `0` will be returned if the script was able to run successfully and run all tests, regardless of the results from the tests. 
 
-### 2.9 - Example `testconfig.json` file
+### 2.11 - Example `testconfig.json` file
 Your `testconfig.json` file may look something like this:
 ```json
 {
     "showLicense": true,
     "verbose": 1,
     "build": [],
-    "setup": ["rm output.file","echo \"1\n2\n3\n4\n5\n\" > input.file"],
+    "setup": ["echo \"1\" > input1.file","echo \"2\" > input2.file"],
     "run": "deno run --allow-read --allow-write testProgram.js",
     "runTimeout": 5,
     "checkFile": "output.file",
+    "deleteCheckFileOnSetup": true,
+    "checkCmds": [],
     "scoreExitCode": false
 }
 ```
 
-## 3 - Writing your Tests
-Each test consists of a minimum of 2, up to a maximum of 4 files. All tests consist of a stdin file, and one or more of a stdout file, a stderr file, and a file that should be created by the program, You may also create a file to signal to the test-runner.js that a non-zero exit code is expected for this test. All test files should be placed inside the `tests` directory, and tests should be numbered sequentially, beginning at 1, with no gaps between test numbers.
+## 3 - Writing Your Tests
+Each test consists of a minimum of 2, up to a maximum of 5 files. All tests consist of a stdin file, and one or more of a stdout file, a stderr file, and a file that should be created by the program, You may also create a file to signal to the test-runner.js that a non-zero exit code is expected for this test. All test files should be placed inside the `tests` directory, and tests should be numbered sequentially, beginning at 1, with no gaps between test numbers.
 
 **WARNING:** Ensure that your test files are placed in the `tests` directory, they are named exactly as specified, and tests are numbered sequentially, beginning at 1, with no gaps between test numbers, or test-runner.js will not be able to find them.
 
@@ -198,7 +218,10 @@ One of the files you can create for your program to be checked against is a file
 One of the files you can create for your program to be checked against is a file signalling to test-runner.js that your program should run into an error while running, and return a non-zero exit code. If this file is included in your test, and your program finishes normally with an exit code of `0`, the test will fail. This file should be named `testX.error`, where `X` is the number of your test, e.g. `test1.error`.  
 If this file is not included, test-runner.js will expect your program to finish normally with an exit code of `0`. Any non-zero exit code will cause the test to fail.
 
-### 3.6 - Example `tests` Directory
+### 3.6 - Run Commands to Check Test Result
+You may wish for commands to be run after each test to check if certain actions have been performed by your program. These can be specified in `tests/testconfig.json`. See [2.9  - Sepcify Commands for Checking Tests](#29-specify-commands-for-checking-tests).
+
+### 3.7 - Example `tests` Directory
 Your `tests` directory may look something like the following:
 ```
 test1.in.txt
@@ -223,13 +246,7 @@ To run test-runner.js from a terminal, switch to the root directory of your proj
 node test-runner.js
 ```
 
-### 4.2 - Sequence of Events when test-runner.js is run
-test-runner.js will begin by checking that your `tests/config.json` is valid, and your test files are valid.  
-It will then run the specified build commands.  
-After building, it will run each of your tests, one by one, running the specified setup commands before each test.  
-After running your tests, it will report the number of tests passed, then exit.
-
-### 4.3 - Troubleshooting Error Messages
+### 4.2 - Troubleshooting Error Messages
 While error messages which causes test-runner.js to stop are always printed, useful error information is hidden when running at verbose level 0. Before troubleshooting the error, it may be useful to re-run test-runner.js at verbose level 1 or higher (see [2.2 - Verbosity settings](#22---verbosity-settings)).
 
 One of the following error messages may be output by test-runner.js if it runs into an error which causes it to stop:
@@ -242,11 +259,14 @@ One of the following error messages may be output by test-runner.js if it runs i
     - One or more of the commands specified in the `"build"` array of `tests/testconfig.json` is either an empty string or not a string. 
     - Double check that all the commands are valid commands and are stored as strings in the array (see [2.3 - Build Commands](#23---build-commands)).
 - **One or more of your setup commands are invalid.**
-    - One or more of the commands specified in the `"build"` array of `tests/testconfig.json` is either an empty string or not a string. 
+    - One or more of the commands specified in the `"setup"` array of `tests/testconfig.json` is either an empty string or not a string. 
     - Double check that all the commands are valid commands and are stored as strings in the array (see [2.4 - Test Setup Commands](#24---test-setup-commands)).
 - **Your run command is invalid.**
     - The command saved as the value for `"run"` in `tests/testconfig.json` is either an empty string or not a string
     - Double check that the specified run command is valid, and is stored as a string (see [2.5 - Run Program Command](#25---run-program-command)).
+- **One or more of your test checking commands are invalid.**
+    - One or more of the commands specified in the `"checkCmd"` array of `tests/testconfig.json` is either an empty string or not a string. 
+    - Double check that all the commands are valid commands and are stored as strings in the array (see [2.9 Specify Commands for Checking Tests](#29-specify-commands-for-checking-tests)).
 - **No tests could be found.**
     - test-runner.js could not find your test files.
     - You should write at least one test before running test-runner.js.
@@ -265,13 +285,17 @@ One of the following error messages may be output by test-runner.js if it runs i
     - At verbose level 1 or higher, test-runner.js will print the `stdout` and `stderr` from the setup command that failed.
     - Refer to troubleshooting for the specific command in question, if available.
 
-If you encounter a runtime error generated by Node.js (you will know you have one if you see a traceback listing of .js files), you may have encountered a bug. It will be appreciated if you re-run test-runner.js at verbose level 2, create a bug report at [https://github.com/max8539/test-runner/issues](https://github.com/max8539/test-runner/issues), describe what you did before the error occured, and include the entire output and Node.js error message in your report.
+If you encounter a runtime error generated by Node.js (you will know you have one if you see a traceback listing of .js files), you may have encountered a bug. It would be appreciated if you [submit a bug report.](#reporting-bugs).
 
-### 4.4 - Other Troubleshooting
+### 4.3 - Other Troubleshooting
 - **I'm not sure why my tests are failing.**
-    - Re-run test-runner.js at verbose level 1 or higher, to get an explanation of why certain tests failed.
+    - Re-run test-runner.js at verbose level 1 or higher to get an explanation of why certain tests failed.
 - **The output looks the same as what the test expects, but it's still failing.**
     - Ensure that spelling is correct, and the use of whitespace and newlines is consistent in both your program and your test files. They must match exactly. Even a difference of one bit or one character will cause the test to fail.
+- **Commands to check the result of a test are causing the test to fail when they're not supposed to**
+    - Re-run test-runner.js at verbose level 1 or higher to see the error messages of the commands that failed.
+    - If the error is unrelated to your test, then there is likely another issue which is causing them to register a failure. Any command that runs into an error will cause test-runner.js to register a failure.
+    - Refer to troubleshooting for the specific commands in question, if available.
 - **The final score shows less tests than the number which I wrote**
     - Ensure that your test files are named correctly.
     - Ensure that your tests are numbered sequentially, beginning at 1, and there are no gaps between test numbers (see [3 - Writing your Tests](#3---writing-your-tests)).
