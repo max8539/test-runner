@@ -7,7 +7,7 @@
 ## General information
 test-runner.js is a script which can be used to automate testing of programs. It was originally made to help test small programs written in C, which lacks its own dedicated testing framework, however it can be used to test programs written in many languages, provided that they run in the terminal and make use of standard IO streams (`stdin`, `stdout` and `stderr`).
 
-One of the main goals of test-runner.js was to make the script portable, and as user-friendly to non-JavaScript developers as possible. As such, test-runner.js avoids the use of npm and external packages entirely, only using packages which are built in to Node.js.
+One of the main goals of test-runner.js was to make it portable and as user-friendly to non-JavaScript developers as possible. As such, test-runner.js avoids the use of npm and external packages entirely, only using packages which are built in to Node.js.
 
 It is recommended to download (or `git clone`) this repository and save it to a central location in your user's filesystem, then copy `test-runner.js`and the `tests` directory into the root directories of the projects where you wish to use it. 
 
@@ -112,16 +112,16 @@ Note that updates to test-runner.js may add additional fields in `tests/testconf
 **WARNING:** Ensure that you enter settings correctly in `tests/testconfig.json` as the value in each of the key-value pairs, like `"key":value`, noting the semicolon between the key and the value. Also ensure that the the data type you enter for each value matches the data types specified below.
 
 ### 2.1 - Show/Hide License Information
-Set `"showLicenseInfo"` to `true` to print license information every time the script is run.  
-Set `"showLicenseInfo"` to `false` to skip printing license information when the script is run.
+Set `"showLicenseInfo"` to `true` to print license information every time test-runner.js is run.  
+Set `"showLicenseInfo"` to `false` to skip printing license information when test-runner.js is run.
 
 `"showLicenseInfo"` should always be set to a boolean value.
 
 ### 2.2 - Verbosity Settings
 Set `"verbose"` to the level of verbosity (information printed) that you wish to see. There are three levels to choose from:
 - `0` - Print only the final result after running all tests, or an error message if tests could not be run.
-- `1` - Print everything in level 0. Print out the stages of the script as they are being executed. Print out the `stdout` and `stderr` of a build or setup command if it fails. Also print out the test numbers as they are run, and print out information about why your program did not pass certain tests, if this occurs.
-- `2` - Print everything in levels 0 and 1. Print out the shell commands that are run by the scrript, as they are executed in different stages of the script, and print out the stages of test checking as they happen.
+- `1` - Print everything in level 0. Print out the stages of test-runner.js as they are being executed. Print out the `stdout` and `stderr` of a build or setup command if it fails. Also print out the test numbers as they are run, and print out information about why your program did not pass certain tests, if this occurs.
+- `2` - Print everything in levels 0 and 1. Print out the shell commands that are run by the scrript, as they are executed in different stages of test-runner.js, and print out the stages of test checking as they happen.
 - `3` - Additional information is printed, intended for debugging purposes. **Level 3 is not recommended unless you are working to fix bugs in test-runner.js.**
 
 `"verbose"` should always be set to a numeric value.
@@ -140,12 +140,12 @@ If your tests do not require any actions to be taken before each test, or betwee
 
 ### 2.5 - Run Program Command
 Set `"run"` to the command which should be used to run your program. The command should be written as a non-empty string wrapped in double quotes (this is a requirement of JSON files). The command will be run once for each test.
-When run by the script, the command will be affixed with a command to use the test's input file as your program's `stdin`. For example, the command `cmd` will be run by your program for test 1 as `cmd < test1.in.txt`.
+When run by test-runner.js, the command will be affixed with a command to use the test's input file as your program's `stdin`. For example, the command `cmd` will be run by your program for test 1 as `cmd < test1.in.txt`.
 
 `"run"` should always be set to a non-empty string.
 
 ### 2.6 Run Timeout
-Set `"runTimeout"` to the maximum time in seconds which your program should take to run. If your program takes longer than this to run in a test, it will be killed and the test will be counted as a failure. The timeout will not be applied to any of the build commands, setup commands, or the time it takes for the script to check the output of your program.
+Set `"runTimeout"` to the maximum time in seconds which your program should take to run. If your program takes longer than this to run in a test, it will be killed and the test will be counted as a failure. The timeout will not be applied to any of the build commands, setup commands, or the time it takes for test-runner.js to check the output of your program.
 
 `"runTimeout"` should always be set to a numeric value.
 
@@ -168,15 +168,15 @@ If your tests do not require any commands to be run as part of checking the resu
 `"checkCmds"` should always be set to an array containing zero or more non-empty string elements.
 
 ### 2.10 Returning the Final Score as the Exit Code
-To facilitate usage of this script in CI pipelines and other programs or scripts, you may choose for the script to return the percentage score as the exit code of the process. 
+To facilitate usage of this script in CI pipelines and other programs or scripts, you may choose for test-runner.js to return the percentage score as the exit code of the process. 
 
 If `"scoreExitCode"` is set to `true`:
 - An exit code of `101` will be returned if an error was encountered outside of running tests on your program, such as if a build or setup command encountered an error.
-- If all tests were run and the script runs successfully, the exit code will be set as `100 - [percentage of tests passed]`. This is set so that an exit code of `0`, which conventionally indicates a program running successfully, corresponds to passing all tests. The actual percentage score can be found by calculating `100 - [exit code]`.
+- If all tests were run and test-runner.js runs successfully, the exit code will be set as `100 - [percentage of tests passed]`. This is set so that an exit code of `0`, which conventionally indicates a program running successfully, corresponds to passing all tests. The actual percentage score can be found by calculating `100 - [exit code]`.
 
 If `"scoreExitCode"` is set to `false`:
 - An exit code of `1` will be returned if an error was encountered outside of running tests on your program, such as if a build or setup command encountered an error.
-- An exit code of `0` will be returned if the script was able to run successfully and run all tests, regardless of the results from the tests. 
+- An exit code of `0` will be returned if test-runner.js was able to run successfully and run all tests, regardless of the results from the tests. 
 
 ### 2.11 - Example `testconfig.json` file
 Your `testconfig.json` file may look something like this:
