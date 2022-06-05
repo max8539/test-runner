@@ -12,6 +12,7 @@
 *
 !.gitignore
 !test-runner.js
+!tr-bugreport.js
 !README.md
 !README.pdf
 !LICENSE
