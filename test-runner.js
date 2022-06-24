@@ -33,7 +33,7 @@ const execPromise = util.promisify(require("child_process").exec);
 
 const testsDir = path.join(__dirname,"tests");
 
-console.log("test-runner.js v1.1.0");
+console.log("test-runner.js v1.1.1");
 if (config.showLicense) {
     console.log("Copyright (C) 2022 Max Yuen.\n");
 
