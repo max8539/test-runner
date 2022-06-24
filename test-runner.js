@@ -204,7 +204,7 @@ async function build () {
         try {await execPromise(cmd)}
         catch (err) {
             vbError(err.stdout + err.stderr);
-            console.error(`${RED}An error occured while building your program with ${cmd}. Cannot proceed.${RESET}`);
+            console.error(`${RED}An error occurred while building your program with ${cmd}. Cannot proceed.${RESET}`);
             errorExit();
         }
     }
@@ -231,7 +231,7 @@ async function setup () {
         try {await execPromise(cmd)}
         catch (err) {
             vbError(err.stdout + err.stderr);
-            console.error(`${RED}An error occured while running test setup with ${cmd}. Cannot proceed.${RESET}`);
+            console.error(`${RED}An error occurred while running test setup with ${cmd}. Cannot proceed.${RESET}`);
             errorExit();
         }
     }
