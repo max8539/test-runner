@@ -15,12 +15,19 @@ It is recommended to download (or `git clone`) this repository and save it to a 
 
 test-runner.js should work on most Linux and Unix-like systems. It will also likely work on macOS. test-runner.js does not currently work on Windows due to differences in command line syntax between Unix-like systems and Windows.
 
+**NOTICE to Students of Academic Institutions:** You are responsible for following the academic honesty and integrity rules set by your institution. In particular:
+- You should check that using this software is permissible under any rules set out by your institution, faculty or course authority, before using it for any academic work
+- Actual test files are not distributed from this repository (except for two example files, which are for illustrative purposes only). You must not upload any tests you create to this repository. You should not redistribute this software with any test files included, unless sharing of tests used for academic work is permitted under any rules set out by your institution, faculty or course authority.
+
+The owner and maintainers of this repository will not accept any responsibility for misuse of this software. 
+
 **NOTICE to System Administrators:** test-runner.js uses a variant of `child_process.exec()` to run user-specified commands on your system. If the Node.js runtime is installed on your system as a set-uid or set-gid executable, users who run test-runner.js may be able to use it to run commands with a privileged level of access to your system.
 
-**test-runner.js Copyright © 2022 Max Yuen.**  
-**Licensed under the Apache License, Version 2.0. See [https://www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0)**
+**test-runner.js Copyright © 2022 Max Yuen.**
 
-*It is kindly asked that if you include files from this repository in your projects and their repositories, that you do not remove ownership information, licensing information and references to this repository from the files.*
+**Licensed under the Apache License, Version 2.0 (the "License"); you may not use this software except in compliance with the License. You may obtain a copy of the License at [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)**
+
+**Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.**
 
 ## Your Download Should Come With the Following Files:
 - `test-runner.js` - the main script to be run
@@ -35,7 +42,8 @@ test-runner.js should work on most Linux and Unix-like systems. It will also lik
 If any files are missing, or have since been updated to a newer version, you can re-download them from [https://github.com/max8539/test-runner](https://github.com/max8539/test-runner), or run `git pull` if using Git to maintain the repository on your computer.
 
 ## Release History
-**v1.1.0 Check Commands and Debugging Update (latest)**  
+**v1.1.1 Update to License Notices (latest)**  
+v1.1.0 Check Commands and Debugging Update   
 v1.0.0 Full Release  
 v0.9.2 License Change  
 v0.9.1 Licensing and Incomplete Documentation  
