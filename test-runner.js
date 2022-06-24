@@ -35,9 +35,19 @@ const testsDir = path.join(__dirname,"tests");
 
 console.log("test-runner.js v1.1.0");
 if (config.showLicense) {
-    console.log("Copyright (C) 2022 Max Yuen.");
-    console.log("Licensed under the Apache License, Version 2.0.");
-    console.log("See https://www.apache.org/licenses/LICENSE-2.0");
+    console.log("Copyright (C) 2022 Max Yuen.\n");
+
+    console.log("Licensed under the Apache License, Version 2.0 (the \"License\"");
+    console.log("you may not use this file except in compliance with the License.");
+    console.log("You may obtain a copy of the License at"); 
+    console.log("http://www.apache.org/licenses/LICENSE-2.0");
+ 
+    console.log("\nUnless required by applicable law or agreed to in writing, software");
+    console.log("distributed under the License is distributed on an \"AS IS\" BASIS,");
+    console.log("WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.");
+    console.log("See the License for the specific language governing permissions and");
+    console.log("limitations under the License.");
+    
 }
 
 if (config.verbose >= 3) {
