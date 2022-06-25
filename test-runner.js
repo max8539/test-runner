@@ -1,6 +1,6 @@
 // test-runner.js
 // A script to automate building and testing of your programs
-// v1.1.1 Update to License Notices
+// v1.1.2 Quickfix: Updated a variable that was not defined in checkStderr
 // https://github.com/max8539/test-runner
 
 // test-runner.js Copyright (C) 2022 Max Yuen. 
@@ -33,7 +33,7 @@ const execPromise = util.promisify(require("child_process").exec);
 
 const testsDir = path.join(__dirname,"tests");
 
-console.log("test-runner.js v1.1.1");
+console.log("test-runner.js v1.1.2");
 if (config.showLicense) {
     console.log("Copyright (C) 2022 Max Yuen.\n");
 
@@ -269,7 +269,7 @@ function checkStderr (testNum, testResult) {
     if (testResult.stderr != err) {
         vb("Your program's stderr did not match the expected stderr.");
         vb(`Your stderr:\n${testResult.stderr}`);
-        vb(`Expected stderr:\n${out}\n`);
+        vb(`Expected stderr:\n${err}\n`);
         return false;
     }
     debug("Files match.")
