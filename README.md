@@ -42,7 +42,8 @@ The owner and maintainers of this repository will not accept any responsibility 
 If any files are missing, or have since been updated to a newer version, you can re-download them from [https://github.com/max8539/test-runner](https://github.com/max8539/test-runner), or run `git pull` if using Git to maintain the repository on your computer.
 
 ## Release History
-**v1.1.1 Update to License Notices (latest)**  
+**v1.1.2 Fix stderr Checking Bug (latest)**
+v1.1.1 Update to License Notices   
 v1.1.0 Check Commands and Debugging Update   
 v1.0.0 Full Release  
 v0.9.2 License Change  

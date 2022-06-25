@@ -1,6 +1,6 @@
 // test-runner.js
 // A script to automate building and testing of your programs
-// v1.1.2 Quickfix: Updated a variable that was not defined in checkStderr
+// v1.1.2 Fix stderr Checking Bug
 // https://github.com/max8539/test-runner
 
 // test-runner.js Copyright (C) 2022 Max Yuen. 
