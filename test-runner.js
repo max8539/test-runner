@@ -1,13 +1,14 @@
 // test-runner.js
 // A script to automate building and testing of your programs
-// v1.1.2 Fix stderr Checking Bug
+// v1.1.3 Minor Fixes
 // https://github.com/max8539/test-runner
 
-// test-runner.js Copyright (C) 2022 Max Yuen. 
+// test-runner.js Copyright (C) 2022 Max Yuen & collaborators. 
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
+
 // http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing, software
@@ -33,13 +34,13 @@ const execPromise = util.promisify(require("child_process").exec);
 
 const testsDir = path.join(__dirname,"tests");
 
-console.log("test-runner.js v1.1.2");
+console.log("test-runner.js v1.1.3");
 if (config.showLicense) {
-    console.log("Copyright (C) 2022 Max Yuen.\n");
+    console.log("Copyright (C) 2022 Max Yuen & collaborators.\n");
 
     console.log("Licensed under the Apache License, Version 2.0 (the \"License\"");
     console.log("you may not use this file except in compliance with the License.");
-    console.log("You may obtain a copy of the License at"); 
+    console.log("You may obtain a copy of the License at\n"); 
     console.log("http://www.apache.org/licenses/LICENSE-2.0");
  
     console.log("\nUnless required by applicable law or agreed to in writing, software");

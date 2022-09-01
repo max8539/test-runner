@@ -23,9 +23,11 @@ The owner and maintainers of this repository will not accept any responsibility 
 
 **NOTICE to System Administrators:** test-runner.js uses a variant of `child_process.exec()` to run user-specified commands on your system. If the Node.js runtime is installed on your system as a set-uid or set-gid executable, users who run test-runner.js may be able to use it to run commands with a privileged level of access to your system.
 
-**test-runner.js Copyright © 2022 Max Yuen.**
+**test-runner.js Copyright © 2022 Max Yuen & collaborators.**
 
-**Licensed under the Apache License, Version 2.0 (the "License"); you may not use this software except in compliance with the License. You may obtain a copy of the License at [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)**
+**Licensed under the Apache License, Version 2.0 (the "License"); you may not use this software except in compliance with the License. You may obtain a copy of the License at**
+
+**[http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)**
 
 **Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.**
 
@@ -42,7 +44,8 @@ The owner and maintainers of this repository will not accept any responsibility 
 If any files are missing, or have since been updated to a newer version, you can re-download them from [https://github.com/max8539/test-runner](https://github.com/max8539/test-runner), or run `git pull` if using Git to maintain the repository on your computer.
 
 ## Release History
-**v1.1.2 Fix stderr Checking Bug (latest)**  
+**v1.1.3 Minor Fixes (latest)**  
+v1.1.2 Fix stderr Checking Bug  
 v1.1.1 Update to License Notices   
 v1.1.0 Check Commands and Debugging Update   
 v1.0.0 Full Release  
