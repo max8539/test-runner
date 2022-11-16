@@ -4,8 +4,13 @@
 # test-runner.js
 **A script to automate building and testing of your programs**
 
+**Development of v2 has started!** - featuring more configuration options, and a UI to help create configuration files.  
+v2 likely will not be backwards compatible with v1 configuration files, however the aim is to make it easy to recreate (and improve!) your testing setup with the new UI helper.
+
 ## General information
 test-runner.js is a script which can be used to automate testing of programs. It was originally made to help test small programs written in C, which lacks its own dedicated testing framework, however it can be used to test programs written in many languages, provided that they run in the terminal and make use of standard IO streams (`stdin`, `stdout` and `stderr`).
+
+test-runner.js is primarily aimed at development in languages that don't have a native testing framework. If the language you use has a native/third party testing framework specific to that language, you may find that more useful.
 
 One of the main goals of test-runner.js was to make it portable and as user-friendly to non-JavaScript developers as possible. As such, test-runner.js avoids the use of npm and external packages entirely, only using packages which are built in to Node.js.
 
