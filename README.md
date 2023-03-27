@@ -1,3 +1,5 @@
+# NOT YET UPDATED FOR v2
+
 [Quick Start Guide](#quick-start-guide)  
 [Skip to documentation](#test-runnerjs-documentation)
 
@@ -17,7 +19,7 @@ test-runner.js should work on most Linux and Unix-like systems. It will also lik
 
 **NOTICE to System Administrators:** test-runner.js uses a variant of `child_process.exec()` to run user-specified commands on your system. If the Node.js runtime is installed on your system as a set-uid or set-gid executable, users who run test-runner.js may be able to use it to run commands with a privileged level of access to your system.
 
-**test-runner.js Copyright © 2022 Max Yuen.**  
+**test-runner.js Copyright © 2022-2023 Max Yuen & collaborators.**  
 **Licensed under the Apache License, Version 2.0. See [https://www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0)**
 
 *It is kindly asked that if you include files from this repository in your projects and their repositories, that you do not remove ownership information, licensing information and references to this repository from the files.*
@@ -34,12 +36,8 @@ test-runner.js should work on most Linux and Unix-like systems. It will also lik
 
 If any files are missing, or have since been updated to a newer version, you can re-download them from [https://github.com/max8539/test-runner](https://github.com/max8539/test-runner), or run `git pull` if using Git to maintain the repository on your computer.
 
-## Release History
-**v1.1.0 Check Commands and Debugging Update (latest)**  
-v1.0.0 Full Release  
-v0.9.2 License Change  
-v0.9.1 Licensing and Incomplete Documentation  
-v0.9.0 Code Pre-release  
+## v2.x Release History
+**v2.0.0-alpha1 development version (latest)**  
 
 ## Improvements and Contributing
 You are welcome to suggest improvements to test-runner.js. The best way to do so is through the Issues Board at [https://github.com/max8539/test-runner/issues](https://github.com/max8539/test-runner/issues).  
@@ -47,13 +45,13 @@ While suggestions are much appreciated, there is no guarantee every suggestion w
 
 If you would like to take up an issue and implement the changes (especially ones given the thumbs-up label), you are welcome to fork the repository, implement the changes, and create a pull request.
 
-**WARNING:** Be careful not to accidentally add files from other projects to the repository. While the `.gitignore` should prevent you from adding other files if it is there, you should double check the files you are commiting before you make the commit. It is extremely difficult, if not impossible, to remove references to a file in Git's history once a commit has been made, especially if you have since pushed that commit to an online repository.
+**WARNING:** Be careful not to accidentally add files from other projects to the repository. While the `.gitignore` should prevent other files from being added automatically if it is there, you should double check the files you are commiting before you make the commit. It is extremely difficult, if not impossible, to remove references to a file in Git's history once a commit has been made, especially if you have since pushed that commit to an online repository.
 
 ## Reporting Bugs
-If you believe you have found a bug, please report it by creating an issue at [https://github.com/max8539/test-runner/issues](https://github.com/max8539/test-runner/issues) with the label bug-report. Copy `tr-bugreport.js` from this repository to the same directory as `test-runner.js` where you encountered the bug, run the terminal command `node tr-bugreport.js` from that directory, and upload the file it creates as part of your bug report. Please also provide a description of what you did in the lead-up to encountereing the bug. If you are able to provide any other files used to allow maintainers to attempt to replicate the problem, that would be much appreciated, however not a requirement.
+If you believe you have found a bug, please report it by creating an issue at [https://github.com/max8539/test-runner/issues](https://github.com/max8539/test-runner/issues) with the label bug-report. Copy `tr-bugreport.js` from this repository to the same directory as `test-runner.js` where you encountered the bug, run the terminal command `node tr-bugreport.js` from that directory, and upload the file it creates as part of your bug report. Please also provide a description of what you did in the lead-up to encountereing the bug. If you are able to provide any other files used to help maintainers replicate the problem, that would be much appreciated, however not a requirement.
 
 # Quick Start Guide
-This quick start guide walks through testing a simple program written in the C programming language, compiled with gcc, and only makes use of terminal input and output (`stdin` and `stdout` only). If you are testing programs or scripts written in other languages, you may wish to use one of the `tests/testconfig.json` templates available [here](https://github.com/max8539/tr-tctemplates).
+This quick start guide walks through testing a simple program written in the C programming language, compiled with gcc, and only makes use of terminal input and output (`stdin` and `stdout` only). If you are testing programs or scripts written in other languages, much of the setup will be the same, but the `build` command and the `run` command in each test should be changed to use the correct compilers, interpreters and/or runtimes.
 
 1. Copy `test-runner.js` and the `tests` directory, including its contents, in the root directory of your project.
 2. Navigate to the `tests` directory in your project and open `testconfig.json` to modify the test settings.

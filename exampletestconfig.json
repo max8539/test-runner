@@ -1,0 +1,25 @@
+{
+    "verbose": 1,
+    "build": ["exit 0"],
+    "tests": [
+        {
+            "name": "Example test",
+            "expect_error": false,
+            "run_timeout": 10,
+            "before_cmds": ["exit 0"],
+            "run_cmd": "exit 0",
+            "stdin_file": "",
+            "stdout_file": "",
+            "stderr_file": "",
+            "after_cmds": ["exit 0"],
+            "files": [
+                {
+                    "program_file": "test-runner.js",
+                    "check_file": "test-runner.js"
+                }
+            ]
+        }
+    ],
+    "first_failure_exit": false,
+    "score_exit_code": false
+}
