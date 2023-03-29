@@ -1,0 +1,12 @@
+{
+    "showLicense": false,
+    "verbose": 1,
+    "build": ["exit 0"],
+    "setup": ["exit 0"],
+    "run": "exit 1",
+    "runTimeout": 2,
+    "checkFile": "",
+    "deleteCheckFileOnSetup": false,
+    "checkCmds": ["exit 0"],
+    "scoreExitCode": false
+}

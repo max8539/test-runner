@@ -4,10 +4,16 @@
 # test-runner.js
 **A script to automate building and testing of your programs**
 
+**Development of v2 has started!** - featuring a revamped configuration file to allow better configuration options for your tests. 
+
+A UI helper for creating new configuration files may be added in the future, but this will not be included in the initial v2 release.
+
 ## General information
 test-runner.js is a script which can be used to automate testing of programs. It was originally made to help test small programs written in C, however it can be used to test programs written in many languages. It can be especially useful for testing programs written in languages which lack a dedicated testing framework.
 
-One of the main goals of test-runner.js was to make the script portable, and as user-friendly to non-JavaScript developers as possible. As such, test-runner.js avoids the use of npm and external packages entirely, only using packages which are built in to Node.js.
+test-runner.js is primarily aimed at development in languages that don't have a native testing framework. If the language you use has a native/third party testing framework specific to that language, you may find that more useful.
+
+One of the main goals of test-runner.js was to make it portable and as user-friendly to non-JavaScript developers as possible. As such, test-runner.js avoids the use of npm and external packages entirely, only using packages which are built in to Node.js.
 
 It is recommended to download (or `git clone`) this repository and save it to a central location in your user's filesystem, then copy the `test-runner.js` file into the root directories of the projects where you wish to use it. You may also wish to copy `exampletestconfig.json` to your project and use it as a starting point when creating your configuration file if you are unfamiliar with JSON syntax.
 
@@ -15,12 +21,22 @@ It is recommended to download (or `git clone`) this repository and save it to a 
 
 test-runner.js should work on most Linux and Unix-like systems. It will also likely work on macOS. test-runner.js does not currently work on Windows due to differences in command line syntax between Unix-like systems and Windows.
 
+**NOTICE to Students of Academic Institutions:** You are responsible for following the academic honesty and integrity rules set by your institution. In particular:
+- You should check that using this software is permissible under any rules set out by your institution, faculty or course authority, before using it for any academic work
+- Actual test files are not distributed from this repository (except for two example files, which are for illustrative purposes only). You must not upload any tests you create to this repository. You should not redistribute this software with any test files included, unless sharing of tests used for academic work is permitted under any rules set out by your institution, faculty or course authority.
+
+The owner and maintainers of this repository will not accept any responsibility for misuse of this software. 
+
 **NOTICE to System Administrators:** test-runner.js will run user-specified commands on your system. If the Node.js runtime is installed on your system as a set-uid or set-gid executable, users who run test-runner.js may be able to use it to run commands with a privileged level of access to your system.
 
 **test-runner.js Copyright © 2022-2023 Max Yuen & collaborators.**  
 **Licensed under the Apache License, Version 2.0. See [https://www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0)**
 
-*It is kindly asked that if you include files from this repository in your projects and their repositories, that you do not remove ownership information, licensing information and references to this repository from the files.*
+**Licensed under the Apache License, Version 2.0 (the "License"); you may not use this software except in compliance with the License. You may obtain a copy of the License at**
+
+**[http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)**
+
+**Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.**
 
 ## Your Download Should Come With the Following Files:
 - `test-runner.js` - the main script to be run
