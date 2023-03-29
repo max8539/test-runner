@@ -99,7 +99,7 @@ If you encounter any errors produced by test-runner.js, see [4.3 - Troubleshooti
 *[3.1 - Summary of Test Object Attributes](#31---summary-of-test-object-attributes)*  
 *[3.2 - Naming Your Test](#32---naming-your-test)*  
 *[3.3 - Expecting an Error from Your Program](#33---expecting-an-error-from-your-program)*  
-*[3.4 - Run Commands Before Running Your Programs](#34---run-commands-before-running-your-programs)*  
+*[3.4 - Run Commands Before Running Your Program](#34---run-commands-before-running-your-program)*  
 *[3.5 - Running Your Program](#35---running-your-program)*  
 *[3.6: Setting a Timeout for Your Program](#36--setting-a-timeout-for-your-program)*  
 *[3.7 - Specify Input for Your Program](#37---specify-input-for-your-program)*  
@@ -229,7 +229,7 @@ Ensure that you enter the names of attributes exactly as shown below, and the da
 | -- | -- | -- |
 | [`"name"`](#32---naming-your-test) | Optional | Specify a name for your test. |
 | [`"expect_error"`](#33---expecting-an-error-from-your-program) | Optional | If `true`, the test expects an error from your program. |
-| [`"before_cmds"`](#34---run-commands-before-running-your-programs) | Optional | Specify one or more commands to be run before your program is run. |
+| [`"before_cmds"`](#34---run-commands-before-running-your-program) | Optional | Specify one or more commands to be run before your program is run. |
 | [`"run_cmd"`](#35---running-your-program) | Required | Specify the command to run your program. |
 | [`"run_timeout"`](#36--setting-a-timeout-for-your-program) | Optional | Set a timeout in seconds for your program. |
 | [`"stdin_file"`](#37---specify-input-for-your-program) | Optional | Specify a file whose contents will be passed to `stdin` of your program. |
@@ -254,7 +254,7 @@ Set `"exoect_error"` to `true` if you expect your program to return a non-zero e
 
 If you expect your program to finish normally, set `"expect_error"` to `false`. The test will now fail if your program encounters an error.
 
-### 3.4 - Run Commands Before Running Your Programs
+### 3.4 - Run Commands Before Running Your Program
 
 Attribute: `"before_cmds"` (optional, skipped if not present)
 
