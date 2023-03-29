@@ -1,6 +1,6 @@
 // test-runner.js
 // A script to automate building and testing of your programs
-// v2.0.0-beta1
+// v2.0.0
 // https://github.com/max8539/test-runner
 
 // To run this script while in its directory:
@@ -19,6 +19,8 @@
 // License for the specific language governing permissions and limitations 
 // under the License.
 
+console.log("test-runner.js v2.0.0\n");
+
 class userError extends Error{};
 class failureExit extends Error{};
 
@@ -27,7 +29,18 @@ const path = require("path");
 const util = require("util");
 const { spawnSync } = require("child_process");
 
-const config = JSON.parse(fs.readFileSync("testconfig.json"));
+let config;
+    
+if (!fs.existsSync("testconfig.json")) {
+    throw new userError("testconfig.json could not be found. \nEnsure that you created this file with the correct name, and it is in the same direcotry as test-runner.js.");
+}
+
+try {
+    config = JSON.parse(fs.readFileSync("testconfig.json"));
+} catch {
+    throw new userError("testconfig.json could not be read due to a JSON syntax error. \nIf your code editor supports JSON files, one or more errors may be highlited.");
+}
+
 
 const testsDir = path.join(__dirname,"tests");
 
@@ -37,8 +50,6 @@ const RED = "\x1b[31m\x1b[1m";
 const YELLOW = "\x1b[33m\x1b[1m";
 const GREEN = "\x1b[32m\x1b[1m";
 const RESET = "\x1b[0m";
-
-console.log("test-runner.js v2.0.0-alpha1\n");
 
 // Functions for printing text based on 
 // verbosity level in testconfig.json
@@ -74,10 +85,11 @@ function checkCmdArr (arr, ref) {
 // Checks that a given filename is valid
 function checkFileStr (str, ref) {
     if (typeof(str) != "string" || str == "") {
-        throw new userError(`The valie of ${ref} is invalid. \nFix the value, or remove the attribute if you do not intend to use it.`);
+        throw new userError(`The value of ${ref} is invalid. \nFix the value, or remove the attribute if you do not intend to use it.`);
     }
     if (!(fs.existsSync(str) && fs.lstatSync(str).isFile())) {
-        throw new userError(`${ref}: File "${__dirname}/${str}" does not exist.`);
+        let fileStr = str[0] == "/" ? str : `${__dirname}/${str}`
+        throw new userError(`${ref}: File "${fileStr}" does not exist.`);
     }
 }
 
@@ -88,8 +100,11 @@ function checkConfig () {
     if (config.build) {
         checkCmdArr(config.build, "build");
     }
+    if (config.tests == undefined) {
+        throw new userError("\"tests\" attribute is missing.");
+    }
     if (!config.tests || typeof(config.tests.length) != "number") {
-        throw new userError("\"tests\" attribute missing or invalid.");
+        throw new userError("The value of \"tests\" is invalid.");
     }
 
     vvb("Checking tests...");
@@ -103,7 +118,7 @@ function checkConfig () {
 
         vvb(`Checking test: ${name}`);
         if (test.run_cmd == undefined) {
-            throw new userError(`${name}: "run_cmd" is not specified.`);
+            throw new userError(`${name}: "run_cmd" attribute is missing.`);
         }
         if (typeof(test.run_cmd) != "string" || test.run_cmd == "") {
             throw new userError(`${name}: The value of "run_cmd" is invalid.`);
