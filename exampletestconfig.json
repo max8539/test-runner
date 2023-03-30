@@ -1,0 +1,50 @@
+{
+    "verbose": 1,
+    "build": ["exit 0"],
+    "first_failure_exit": false,
+    "score_exit_code": false,
+    "tests": [
+        {
+            "name": "Example test 1",
+            "expect_error": false,
+            "before_cmds": ["exit 0"],
+            "run_cmd": "exit 0",
+            "run_timeout": 10,
+            "stdin_file": "stdini1.txt",
+            "stdout_file": "stdout1.txt",
+            "stderr_file": "stderr1.txt",
+            "files": [
+                {
+                    "program_file": "file1a.txt",
+                    "check_file": "file1a.txt"
+                },
+                {
+                    "program_file": "file1b.txt",
+                    "check_file": "file1b.txt"
+                }
+            ],
+            "after_cmds": ["exit 0"]
+        },
+        {
+            "name": "Example test 2",
+            "expect_error": false,
+            "before_cmds": ["exit 0"],
+            "run_cmd": "exit 0",
+            "run_timeout": 10,
+            "stdin_file": "stdini2.txt",
+            "stdout_file": "stdout2.txt",
+            "stderr_file": "stderr2.txt",
+            "files": [
+                {
+                    "program_file": "file2a.txt",
+                    "check_file": "file2a.txt"
+                },
+                {
+                    "program_file": "file2b.txt",
+                    "check_file": "file2b.txt"
+                }
+            ],
+            "after_cmds": ["exit 0"]
+        }
+    ]
+}

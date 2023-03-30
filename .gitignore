@@ -12,13 +12,12 @@
 *
 !.gitignore
 !test-runner.js
-!tr-bugreport.js
+!exampletestconfig.json
 !README.md
 !README.pdf
 !LICENSE
 !tests
 
 tests/*
-!tests/config.json
 !tests/exampletest1.in.txt
 !tests/exampletest1.out.txt
