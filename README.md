@@ -4,10 +4,6 @@
 # test-runner.js
 **A script to automate building and testing of your programs**
 
-**Development of v2 has started!** - featuring a revamped configuration file to allow better configuration options for your tests. 
-
-A UI helper for creating new configuration files may be added in the future, but this will not be included in the initial v2 release.
-
 ## General information
 test-runner.js is a script which can be used to automate testing of programs. It was originally made to help test small programs written in C, however it can be used to test programs written in many languages. It can be especially useful for testing programs written in languages which lack a dedicated testing framework.
 
