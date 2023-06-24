@@ -1,6 +1,6 @@
 // test-runner.js
 // A script to automate building and testing of your programs
-// v2.0.0
+// v2.0.1
 // https://github.com/max8539/test-runner
 
 // To run this script while in its directory:
@@ -19,14 +19,12 @@
 // License for the specific language governing permissions and limitations 
 // under the License.
 
-console.log("test-runner.js v2.0.0\n");
+console.log("test-runner.js v2.0.1\n");
 
 class userError extends Error{};
 class failureExit extends Error{};
 
 const fs = require("fs");
-const path = require("path");
-const util = require("util");
 const { spawnSync } = require("child_process");
 
 let config;
@@ -40,9 +38,6 @@ try {
 } catch {
     throw new userError("testconfig.json could not be read due to a JSON syntax error. \nIf your code editor supports JSON files, one or more errors may be highlited.");
 }
-
-
-const testsDir = path.join(__dirname,"tests");
 
 // These character sequences instruct the terminal
 // to display coloured bold text
@@ -267,7 +262,7 @@ function testRunner (test) {
     testResult = spawnSync(test.run_cmd, {input: inp, shell: true, timeout: to});
     if (testResult.signal) {
         vb(`Your program was killed with signal ${testResult.signal}.`);
-        if (testResult = "SIGTERM") {
+        if (testResult == "SIGTERM" && test.run_timeout) {
             vb("A SIGTERM signal may indicate the program being killed for exceeding the specified timeout.");
         }
         return false;
@@ -303,8 +298,6 @@ function runTests () {
     let i = 0;
     let numSuccess = 0;
     
-    // Iterate through test files while they exist, starting with test1,
-    // update score based on result from testRunner()
     for (test of config.tests) {
         i += 1;
         vb(test.name ? test.name : `Test ${i}`);
@@ -335,6 +328,8 @@ function runTests () {
     return testPrecent;
 }
 
+
+
 function main() {
     vb("Checking configuration file,,,");
     checkConfig();
@@ -347,7 +342,6 @@ function main() {
     vb("Running tests...");
     let testPercent = runTests();
     
-    // Set exit code (default 0)
     if (config.scoreExitCode) {
         process.exitCode = 100 - testPercent;
     }
