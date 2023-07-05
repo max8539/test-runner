@@ -15,24 +15,15 @@ It is recommended to download (or `git clone`) this repository and save it to a 
 
 **test-runner.js is run using Node.js.** If not already installed on your system, you may download it from the [officlal Node.js website](https://nodejs.org/), or consider using a version manager like [nvm](https://github.com/nvm-sh/nvm).
 
-test-runner.js should work on most Linux and Unix-like systems. It will also likely work on macOS. test-runner.js does not currently work on Windows due to differences in command line syntax between Unix-like systems and Windows.
+test-runner.js works on most Linux and Unix-like systems. It will also likely work on macOS. test-runner.js may or may not work with Windows, and is not tested.
 
 **NOTICE to Students of Academic Institutions:** You are responsible for following the academic honesty and integrity rules set by your institution. In particular:
-- You should check that using this software is permissible under any rules set out by your institution, faculty or course authority, before using it for any academic work
+- You should check that using this software is permissible under any rules set out by your institution, faculty or course authority, before using it for any academic work.
 - Actual test files are not distributed from this repository (except for two example files, which are for illustrative purposes only). You must not upload any tests you create to this repository. You should not redistribute this software with any test files included, unless sharing of tests used for academic work is permitted under any rules set out by your institution, faculty or course authority.
 
 The owner and maintainers of this repository will not accept any responsibility for misuse of this software. 
 
 **NOTICE to System Administrators:** test-runner.js will run user-specified commands on your system. If the Node.js runtime is installed on your system as a set-uid or set-gid executable, users who run test-runner.js may be able to use it to run commands with a privileged level of access to your system.
-
-**test-runner.js Copyright © 2022-2023 Max Yuen & collaborators.**  
-**Licensed under the Apache License, Version 2.0. See [https://www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0)**
-
-**Licensed under the Apache License, Version 2.0 (the "License"); you may not use this software except in compliance with the License. You may obtain a copy of the License at**
-
-**[http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)**
-
-**Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.**
 
 ## Your Download Should Come With the Following Files:
 - `test-runner.js` - the main script to be run
@@ -46,7 +37,8 @@ The owner and maintainers of this repository will not accept any responsibility 
 If any files are missing, or have since been updated to a newer version, you can re-download them from [https://github.com/max8539/test-runner](https://github.com/max8539/test-runner), or run `git pull` if using Git to maintain the repository on your computer.
 
 ## v2.x Release History
-**v2.0.1 (latest)**  
+**v2.1.0 (latest)**
+v2.0.1
 v2.0.0 
 
 ## Improvements and Contributing
@@ -60,6 +52,15 @@ If you would like to take up an issue and implement the changes (especially ones
 ## Reporting Bugs
 If you believe you have found a bug, please report it by creating an issue at [https://github.com/max8539/test-runner/issues](https://github.com/max8539/test-runner/issues) with the label bug-report. Please provide a description of what you did in the lead-up to encountereing the bug. If you are able to provide any other files used to help maintainers reproduce the problem, that would be much appreciated, however not a requirement.
 
+**test-runner.js Copyright © 2022-2023 Max Yuen & collaborators.**  
+**Licensed under the Apache License, Version 2.0. See [https://www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0)**
+
+**Licensed under the Apache License, Version 2.0 (the "License"); you may not use this software except in compliance with the License. You may obtain a copy of the License at**
+
+**[http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)**
+
+**Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.**
+
 # Quick Start Guide
 This quick start guide walks through testing a simple program written in the C programming language, compiled with gcc, and only makes use of terminal input and output (`stdin` and `stdout` only). If you are testing programs or scripts written in other languages, much of the setup will be the same, but the `build` command and the `run` command in each test should be changed to use the correct compilers, interpreters and/or runtimes.
 
@@ -67,10 +68,10 @@ This quick start guide walks through testing a simple program written in the C p
 2. Create a file named `testconfig.json`. Copy the below template and place it in the file:
 ```json
 {
-    "build": ["exit 0"],
+    "build": [""],
     "tests": [
         {
-            "run_cmd": "exit 0",
+            "run_cmd": "",
             "stdin_file": "",
             "stdout_file": "",
         }
@@ -91,7 +92,7 @@ This quick start guide walks through testing a simple program written in the C p
     "stdout_file": "",
 }
 ```
-10. Re-run test-runner.js to test your program with your new tests. For more advanced testing options, see [3 - Writing Your Tests](#3---writing-your-tests) in the full documentation below.
+10. Re-run test-runner.js to test your program with your new tests. For more advanced testing options, see [2 - Configuring Test Settings in `testconfig.json`](#2---configuring-test-settings-in--testconfigjson-) and [3 - Writing Your Tests](#3---writing-your-tests) in the full documentation below.
 
 If you encounter any errors produced by test-runner.js, see [4.3 - Troubleshooting Error Messages](#43---troubleshooting-error-messages) for troubleshooting help.
 
@@ -389,10 +390,11 @@ In each test, checks are performed in the following order, regardless of what or
 ### 4.1 - Running test-runner.js
 Ensure that you have completed sections 1, 2 and 3 above before running test-runner.js.
 
-To run test-runner.js from a terminal, switch to the root directory of your project, where `test-runner.js` and `testconfig.json` should be located, and run the following command:
-```
-node test-runner.js
-```
+There are two ways to run `test-runner.js`:
+- Copy `test-runner.js` to the root directory of your project, then run the script using the command `node test-runner.js` (all systems) or `./test-runner.js` (Linux, macOS, other UNIX-like only).
+- Add the repository's directory to the user's PATH, then run the script from the root directory of your project using the command `test-runner.js`.
+
+Note that the above instructions assume that you have created a valid `testconfig.json` file in the root directory of your project. If you have not done this, see [2 - Configuring Test Settings in `testconfig.json`](#2---configuring-test-settings-in--testconfigjson-) and [3 - Writing Your Tests](#3---writing-your-tests)
 
 ### 4.2 - Troubleshooting Error Messages
 While error messages which causes test-runner.js to stop are always printed, useful error information is hidden when running at verbose level 0. Before troubleshooting the error, it may be useful to re-run test-runner.js at verbose level `1` or `2` (see [2.2 - Verbosity settings](#22---verbosity-settings)).
@@ -404,30 +406,30 @@ One of the following error messages may be output by test-runner.js if it runs i
 - **testconfig.json could not be read due to a JSON syntax error.**
     - There are one or more JSON syntax errors in `testconfig.json`, preventing the script from reading and parsing the file.
     - The easiest way to fix this problem is to open `testconfig.json` in a code editor which supports `JSON` syntax highlighting and fix any issues which it identifies.
-- **\[attribute name\] is missing**
+- **\<attribute name> is missing**
     - A required attribute in `testconfig.json` is missing.
     - See information for [`"tests"`](#26---specifying-your-tests) and [`"run_cmd"`](#35---running-your-program).
-- **The value of \[attribute name\] is invalid**
+- **The value of \<attribute name> is invalid**
     - The value you entered for the attribute shown is invalid. This is often due to an incorrect data type being provicded.
     - See [2 - Configuring Test Settings in `testconfig.json`](#2---configuring-test-settings-in--testconfigjson-) and [3 - Writing Your Tests](#3---writing-your-tests) for information on data types for specific attributes.
     - If you do not intend for an optional attribute to be used, delete the attribute name and its value from `testconfig.json`.
-- **\[location\]: One or more commands are invalid.**
+- **\<location>: One or more commands are invalid.**
     - One or more commands you have entered at the location shown is invalid.
     - Commands should be strings, enclosed in double quotes`""`. They must also not be empty.
-- **\[\location\]: File \{file path\} does not exist.**
+- **\<location>: File \<file path> does not exist.**
     - The file at the file path shown could not be found.
     - Ensure that the file exists, and that you have spelled the filename and all directory names in the path correctly.
 - **No tests specified.**
     - You have set the `tests` attribute to an empty array.
     - You should write at least one test before running test-runner.js.
     - See [3 - Writing Your Tests](#3---writing-your-tests) for information about writing tests.
-- **An error occured while building your program with \[cmd\].**
-    - \[cmd\] encountered an error while building or compiling your program.
+- **An error occured while building your program with \<cmd>.**
+    - \<cmd> encountered an error while building or compiling your program.
     - At verbose level 1 or higher, test-runner.js will print the `stdout` and `stderr` from the build command that failed, which will likely include warnings and/or errors from your code.
     - You most likely need to fix your code so that it will build or compile correctly.
     - Refer to troubleshooting for the specific command in question, if available.
-- **An error occured while running command \[cmd\].**
-    - \[cmd\] encountered an error while running.
+- **An error occured while running command \<cmd>.**
+    - \<cmd> encountered an error while running.
     - Commands specified under `"before_run"` are expected to pass. If any of these commands fails, testing will stop.
     - At verbose level 1 or higher, test-runner.js will print the `stdout` and `stderr` from the command that failed.
     - Refer to troubleshooting for the specific command in question, if available.
