@@ -1,10 +1,22 @@
+#! /usr/bin/env node
+
 // test-runner.js
 // A script to automate building and testing of your programs
-// v2.0.1
+// v2.1.0
 // https://github.com/max8539/test-runner
+
+// This script requires Node.js to be installed on your system.
 
 // To run this script while in its directory:
 // $ node test-runner.js
+// or (Linux/macOS/UNIX-like systems only)
+// $ ./test-runner.js
+
+// Alternately, on Linux/macOS/UNIX-like systems, you can add the directory 
+// containing test-runner.js to PATH, then simply run the script from any
+// directory as follows, provided that you have created a valid testconfig.json
+// file in that directory.
+// $ test-runner.js
 
 // test-runner.js Copyright (C) 2022-2023 Max Yuen & collaborators. 
 // Licensed under the Apache License, Version 2.0 (the "License"); you may not 
@@ -19,7 +31,7 @@
 // License for the specific language governing permissions and limitations 
 // under the License.
 
-console.log("test-runner.js v2.0.1\n");
+console.log("test-runner.js v2.1.0\n");
 
 class userError extends Error{};
 class failureExit extends Error{};
@@ -28,16 +40,6 @@ const fs = require("fs");
 const { spawnSync } = require("child_process");
 
 let config;
-    
-if (!fs.existsSync("testconfig.json")) {
-    throw new userError("testconfig.json could not be found. \nEnsure that you created this file with the correct name, and it is in the same direcotry as test-runner.js.");
-}
-
-try {
-    config = JSON.parse(fs.readFileSync("testconfig.json"));
-} catch {
-    throw new userError("testconfig.json could not be read due to a JSON syntax error. \nIf your code editor supports JSON files, one or more errors may be highlited.");
-}
 
 // These character sequences instruct the terminal
 // to display coloured bold text
@@ -331,6 +333,15 @@ function runTests () {
 
 
 function main() {
+    if (!fs.existsSync("testconfig.json")) {
+        throw new userError("testconfig.json could not be found. \nEnsure that you created this file with the correct name, and it is in the current directory.");
+    }
+    try {
+        config = JSON.parse(fs.readFileSync("testconfig.json"));
+    } catch {
+        throw new userError("testconfig.json could not be read due to a JSON syntax error. \nIf your code editor supports JSON files, one or more errors may be highlighted.");
+    }
+    
     vb("Checking configuration file,,,");
     checkConfig();
     vb("All good.");
