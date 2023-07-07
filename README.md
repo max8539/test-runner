@@ -11,7 +11,7 @@ test-runner.js is primarily aimed at development in languages that don't have a 
 
 One of the main goals of test-runner.js was to make it portable and as user-friendly to non-JavaScript developers as possible. As such, test-runner.js avoids the use of npm and external packages entirely, only using packages which are built in to Node.js.
 
-It is recommended to download (or `git clone`) this repository and save it to a central location in your user's filesystem, then copy the `test-runner.js` file into the root directories of the projects where you wish to use it. You may also wish to copy `exampletestconfig.json` to your project and use it as a starting point when creating your configuration file if you are unfamiliar with JSON syntax.
+It is recommended to download (or `git clone`) this repository and save it to a central location in your user's filesystem, then copy the `test-runner.js` file into the root directories of the projects where you wish to use it. You may also wish to copy `exampletestconfig.json` to your project and use it as a starting point when creating your configuration file if you are unfamiliar with JSON syntax. Alternately, on Linux, macOS and other UNIX-like systems, you can add the directory containing test-runner.js to your user's PATH, which can allow you to easily run the script from any directory without needing to copy files.
 
 **test-runner.js is run using Node.js.** If not already installed on your system, you may download it from the [officlal Node.js website](https://nodejs.org/), or consider using a version manager like [nvm](https://github.com/nvm-sh/nvm).
 
@@ -37,9 +37,9 @@ The owner and maintainers of this repository will not accept any responsibility 
 If any files are missing, or have since been updated to a newer version, you can re-download them from [https://github.com/max8539/test-runner](https://github.com/max8539/test-runner), or run `git pull` if using Git to maintain the repository on your computer.
 
 ## v2.x Release History
-**v2.1.0 (latest)**
-v2.0.1
-v2.0.0 
+**v2.1.0 (latest)**  
+v2.0.1  
+v2.0.0  
 
 ## Improvements and Contributing
 You are welcome to suggest improvements to test-runner.js. The best way to do so is through the Issues Board at [https://github.com/max8539/test-runner/issues](https://github.com/max8539/test-runner/issues).  
@@ -391,8 +391,8 @@ In each test, checks are performed in the following order, regardless of what or
 Ensure that you have completed sections 1, 2 and 3 above before running test-runner.js.
 
 There are two ways to run `test-runner.js`:
-- Copy `test-runner.js` to the root directory of your project, then run the script using the command `node test-runner.js` (all systems) or `./test-runner.js` (Linux, macOS, other UNIX-like only).
-- Add the repository's directory to the user's PATH, then run the script from the root directory of your project using the command `test-runner.js`.
+- Copy `test-runner.js` to the root directory of your project, then run the script using the command `node test-runner.js` (all systems) or `./test-runner.js` (Linux, macOS, other UNIX-like systems only).
+- Add the repository's directory to the user's PATH, then run the script from the root directory of your project using the command `test-runner.js`. This only works on Linux, macOS and other UNIX-like systems. You will also need to make sure that the `test-runner.js` file has execute permissions.
 
 Note that the above instructions assume that you have created a valid `testconfig.json` file in the root directory of your project. If you have not done this, see [2 - Configuring Test Settings in `testconfig.json`](#2---configuring-test-settings-in--testconfigjson-) and [3 - Writing Your Tests](#3---writing-your-tests)
 
