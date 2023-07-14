@@ -2,7 +2,7 @@
 
 // test-runner.js
 // A script to automate building and testing of your programs
-// v2.1.0
+// v2.1.1
 // https://github.com/max8539/test-runner
 
 // This script requires Node.js to be installed on your system.
@@ -31,7 +31,7 @@
 // License for the specific language governing permissions and limitations 
 // under the License.
 
-console.log("test-runner.js v2.1.0\n");
+console.log("test-runner.js v2.1.1\n");
 
 class userError extends Error{};
 class failureExit extends Error{};
@@ -342,7 +342,7 @@ function main() {
         throw new userError("testconfig.json could not be read due to a JSON syntax error. \nIf your code editor supports JSON files, one or more errors may be highlighted.");
     }
     
-    vb("Checking configuration file,,,");
+    vb("Checking configuration file...");
     checkConfig();
     vb("All good.");
     if (config.build != undefined) {

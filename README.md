@@ -36,10 +36,8 @@ The owner and maintainers of this repository will not accept any responsibility 
 
 If any files are missing, or have since been updated to a newer version, you can re-download them from [https://github.com/max8539/test-runner](https://github.com/max8539/test-runner), or run `git pull` if using Git to maintain the repository on your computer.
 
-## v2.x Release History
-**v2.1.0 (latest)**  
-v2.0.1  
-v2.0.0  
+## Latest version
+v2.1.1
 
 ## Improvements and Contributing
 You are welcome to suggest improvements to test-runner.js. The best way to do so is through the Issues Board at [https://github.com/max8539/test-runner/issues](https://github.com/max8539/test-runner/issues).  
