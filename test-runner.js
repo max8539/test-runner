@@ -69,7 +69,7 @@ function vvb (text) {
 // Check that a given array of commands appears to be valid
 function checkCmdArr (arr, ref) {
     if (typeof(arr.length) != "number" || arr.length < 0) {
-        throw new userError(`The valie of ${ref} is invalid. \nFix the value, or remove the attribute if you do not intend to use it.`);
+        throw new userError(`The value of ${ref} is invalid. \nFix the value, or remove the attribute if you do not intend to use it.`);
     }
     for (cmd in arr) {
         if (typeof(cmd) != "string" || cmd == "") {
@@ -139,7 +139,7 @@ function checkConfig () {
             checkFileStr(test.stderr_file, `${name}: "stderr_file"`);
         }
         if (test.files != undefined && (typeof(test.files.length) != "number" || test.files.length < 0)) {
-            throw new userError(`${name}: The valie of "files" is invalid. \nFix the value, or remove the attribute if you do not intend to use it.`);
+            throw new userError(`${name}: The value of "files" is invalid. \nFix the value, or remove the attribute if you do not intend to use it.`);
         }
         if (test.files != undefined) {
             for (let f = 0; f < test.files.length; f++) {
@@ -235,7 +235,7 @@ function checkFiles (test) {
             out = fs.readFileSync(filePair.program_file);
             exp = fs.readFileSync(filePair.check_file);
             if (out.toString() != exp.toString()) {
-                vb(`The contents of file "${filePair.program_file}" and "${filePair.check_file}" do not match.`);
+                vb(`The contents of files "${filePair.program_file}" and "${filePair.check_file}" do not match.`);
                 success = false;
             } 
         }
