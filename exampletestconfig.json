@@ -23,7 +23,8 @@
                     "check_file": "file1b.txt"
                 }
             ],
-            "after_cmds": ["exit 0"]
+            "after_cmds": ["exit 0"],
+            "skip": false
         },
         {
             "name": "Example test 2",
@@ -44,7 +45,8 @@
                     "check_file": "file2b.txt"
                 }
             ],
-            "after_cmds": ["exit 0"]
+            "after_cmds": ["exit 0"],
+            "skip": false
         }
     ]
 }

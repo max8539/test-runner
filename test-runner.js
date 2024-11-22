@@ -2,7 +2,7 @@
 
 // test-runner.js
 // A script to automate building and testing of your programs
-// v2.1.1
+// v2.2.0
 // https://github.com/max8539/test-runner
 
 // This script requires Node.js to be installed on your system.
@@ -18,7 +18,7 @@
 // file in that directory.
 // $ test-runner.js
 
-// test-runner.js Copyright (C) 2022-2023 Max Yuen & collaborators. 
+// test-runner.js Copyright (C) 2022-2024 Max Yuen & collaborators. 
 // Licensed under the Apache License, Version 2.0 (the "License"); you may not 
 // use this software except in compliance with the License. You may obtain a 
 // copy of the License at
@@ -31,10 +31,10 @@
 // License for the specific language governing permissions and limitations 
 // under the License.
 
-console.log("test-runner.js v2.1.1\n");
+console.log("test-runner.js v2.2.0\n");
 
-class userError extends Error{};
-class failureExit extends Error{};
+class userError extends Error { };
+class failureExit extends Error { };
 
 const fs = require("fs");
 const { spawnSync } = require("child_process");
@@ -43,36 +43,40 @@ let config;
 
 // These character sequences instruct the terminal
 // to display coloured bold text
-const RED = "\x1b[31m\x1b[1m";
-const YELLOW = "\x1b[33m\x1b[1m";
-const GREEN = "\x1b[32m\x1b[1m";
+const RED_BOLD = "\x1b[31m\x1b[1m";
+const YELLOW_BOLD = "\x1b[33m\x1b[1m";
+const GREEN_BOLD = "\x1b[32m\x1b[1m";
+const BOLD = "\x1b[1m";
+const RED = "\x1b[31m";
+const YELLOW = "\x1b[33m";
+const GREEN = "\x1b[32m";
 const RESET = "\x1b[0m";
 
 // Functions for printing text based on 
 // verbosity level in testconfig.json
-function vb (text) {
+function vb(text) {
     if (config.verbose != 0) {
         console.log(text)
     }
 }
-function vbError (text) {
+function vbError(text) {
     if (config.verbose != 0) {
         console.error(text)
     }
 }
-function vvb (text) {
+function vvb(text) {
     if (config.debug || config.verbose == 2) {
         console.log(text)
     }
 }
 
 // Check that a given array of commands appears to be valid
-function checkCmdArr (arr, ref) {
-    if (typeof(arr.length) != "number" || arr.length < 0) {
+function checkCmdArr(arr, ref) {
+    if (typeof (arr.length) != "number" || arr.length < 0) {
         throw new userError(`The value of ${ref} is invalid. \nFix the value, or remove the attribute if you do not intend to use it.`);
     }
     for (cmd in arr) {
-        if (typeof(cmd) != "string" || cmd == "") {
+        if (typeof (cmd) != "string" || cmd == "") {
             throw new userError(`${ref}: One or more commands are invalid.`);
         }
     }
@@ -80,8 +84,8 @@ function checkCmdArr (arr, ref) {
 }
 
 // Checks that a given filename is valid
-function checkFileStr (str, ref) {
-    if (typeof(str) != "string" || str == "") {
+function checkFileStr(str, ref) {
+    if (typeof (str) != "string" || str == "") {
         throw new userError(`The value of ${ref} is invalid. \nFix the value, or remove the attribute if you do not intend to use it.`);
     }
     if (!(fs.existsSync(str) && fs.lstatSync(str).isFile())) {
@@ -92,7 +96,7 @@ function checkFileStr (str, ref) {
 
 // Checks that all settings in config.json appear to be valid
 // Exit if any are invalid
-function checkConfig () {
+function checkConfig() {
     vvb("Checking build commands...");
     if (config.build) {
         checkCmdArr(config.build, "build");
@@ -100,7 +104,7 @@ function checkConfig () {
     if (config.tests == undefined) {
         throw new userError("\"tests\" attribute is missing.");
     }
-    if (!config.tests || typeof(config.tests.length) != "number") {
+    if (!config.tests || typeof (config.tests.length) != "number") {
         throw new userError("The value of \"tests\" is invalid.");
     }
 
@@ -111,16 +115,19 @@ function checkConfig () {
 
     for (let i = 0; i < config.tests.length; i++) {
         let test = config.tests[i];
-        let name = test.name || `Test ${i+1}`;
+        let name = test.name || `Test ${i + 1}`;
 
         vvb(`Checking test: ${name}`);
         if (test.run_cmd == undefined) {
             throw new userError(`${name}: "run_cmd" attribute is missing.`);
         }
-        if (typeof(test.run_cmd) != "string" || test.run_cmd == "") {
+        if (typeof (test.run_cmd) != "string" || test.run_cmd == "") {
             throw new userError(`${name}: The value of "run_cmd" is invalid.`);
         }
-        if (test.run_timeout != undefined && (typeof(test.run_timeout) != "number" || test.run_timeout <= 0)) {
+        if (test.skip != undefined && (typeof (test.skip) != "boolean")) {
+            throw new userError(`${name}: The value of "skip" is invalid. \nFix the value, or remove the attribute if you do not intend to use it.`);
+        }
+        if (test.run_timeout != undefined && (typeof (test.run_timeout) != "number" || test.run_timeout <= 0)) {
             throw new userError(`${name}: The value of "run_timeout" is invalid. \nFix the value, or remove the attribute if you do not intend to use it.`);
         };
         if (test.before_cmds != undefined) {
@@ -138,12 +145,12 @@ function checkConfig () {
         if (test.stderr_file != undefined) {
             checkFileStr(test.stderr_file, `${name}: "stderr_file"`);
         }
-        if (test.files != undefined && (typeof(test.files.length) != "number" || test.files.length < 0)) {
+        if (test.files != undefined && (typeof (test.files.length) != "number" || test.files.length < 0)) {
             throw new userError(`${name}: The value of "files" is invalid. \nFix the value, or remove the attribute if you do not intend to use it.`);
         }
         if (test.files != undefined) {
             for (let f = 0; f < test.files.length; f++) {
-                checkFileStr(test.files[f].check_file, `${name}: "files"[${f+1}]: "check_file"`);
+                checkFileStr(test.files[f].check_file, `${name}: "files"[${f + 1}]: "check_file"`);
             }
         }
     }
@@ -151,11 +158,11 @@ function checkConfig () {
 
 // Builds program using commands specified in config.build array, in order
 // Prints error message and exits if any command produces an error
-function build () {
+function build() {
     let result;
     for (let cmd of config.build) {
         vvb(cmd);
-        result = spawnSync(cmd, {shell:true});
+        result = spawnSync(cmd, { shell: true });
         if (result.status != 0 || result.signal) {
             vbError(result.stdout + result.stderr);
             throw new userError(`An error occured while building your program with ${cmd}.`);
@@ -166,11 +173,11 @@ function build () {
 
 // Runs commands specified in test.before_run array, in order.
 // Prints error message and exits on first command that produces an error.
-function beforeRun (cmds) {
+function beforeRun(cmds) {
     let result;
     for (let cmd of cmds) {
         vvb(cmd);
-        result = spawnSync(cmd, {shell:true});
+        result = spawnSync(cmd, { shell: true });
         if (result.status != 0 || result.signal) {
             vbError(result.stdout + result.stderr);
             throw new userError(`An error occured while running command "${cmd}".`);
@@ -181,11 +188,11 @@ function beforeRun (cmds) {
 
 // Runs commands specified in test.after_run array, in order.
 // Prints error message and returns false on first command that fails.
-function afterRun (cmds) {
+function afterRun(cmds) {
     let result;
     for (let cmd of cmds) {
         vvb(cmd);
-        result = spawnSync(cmd, {shell:true});
+        result = spawnSync(cmd, { shell: true });
         if (result.status != 0 || result.signal) {
             vb(result.stdout + result.stderr);
             vb(`Command "${cmd}" failed.`);
@@ -196,7 +203,7 @@ function afterRun (cmds) {
 }
 
 // Check that the program's stdout matches the expected stdout for test
-function checkStdout (test, testResult) {
+function checkStdout(test, testResult) {
     vvb("Checking stdout...");
     let out = fs.readFileSync(test.stdout_file);
     if (testResult.stdout.toString() != out.toString()) {
@@ -209,7 +216,7 @@ function checkStdout (test, testResult) {
 }
 
 // Check that the program's stderr matches the expected stderr for test
-function checkStderr (test, testResult) {
+function checkStderr(test, testResult) {
     vvb("Checking stderr...");
     let err = fs.readFileSync(test.stderr_file);
     if (testResult.stderr.toString() != err.toString()) {
@@ -223,7 +230,7 @@ function checkStderr (test, testResult) {
 
 // Checks that the contents of each pair of files specified in test.files
 // have matching contents.
-function checkFiles (test) {
+function checkFiles(test) {
     let out, exp;
     let success = true;
 
@@ -237,7 +244,7 @@ function checkFiles (test) {
             if (out.toString() != exp.toString()) {
                 vb(`The contents of files "${filePair.program_file}" and "${filePair.check_file}" do not match.`);
                 success = false;
-            } 
+            }
         }
     }
 
@@ -245,7 +252,7 @@ function checkFiles (test) {
 }
 
 // Function for running individual tests, returns true/false test success status
-function testRunner (test) {
+function testRunner(test) {
     let testResult;
     let success = true;
 
@@ -261,7 +268,7 @@ function testRunner (test) {
     // Convert run_timeout to milliseconds, rounded to nearest integer.
     let to = test.run_timeout ? Math.round(test.run_timeout * 1000) : undefined;
     vvb(test.run_cmd);
-    testResult = spawnSync(test.run_cmd, {input: inp, shell: true, timeout: to});
+    testResult = spawnSync(test.run_cmd, { input: inp, shell: true, timeout: to });
     if (testResult.signal) {
         vb(`Your program was killed with signal ${testResult.signal}.`);
         if (testResult == "SIGTERM" && test.run_timeout) {
@@ -278,7 +285,7 @@ function testRunner (test) {
         vb(testResult.stdout.toString() + testResult.stderr.toString());
         return false;
     }
-    
+
     if (test.stdout_file) {
         success = checkStdout(test, testResult) && success;
     }
@@ -296,37 +303,54 @@ function testRunner (test) {
 }
 
 // Iterate through all tests, calculate and display final score
-function runTests () {
+function runTests() {
     let i = 0;
     let numSuccess = 0;
-    
+    let numSkipped = 0;
+    let testName = ""
+
     for (test of config.tests) {
         i += 1;
+        testName = test.name ? test.name : `Test ${i}`
         vb(test.name ? test.name : `Test ${i}`);
-        if (testRunner(test)) {
+        if (test.skip) {
+            vb(`${YELLOW}${testName} skipped.${RESET}`)
+            numSkipped += 1;
+        } else if (testRunner(test)) {
+            vb(`${GREEN}${testName} passed.${RESET}`)
             numSuccess += 1;
-        } else if (config.first_failure_exit) {
-            throw new failureExit();
+        } else {
+            vb(`${RED}${testName} failed.${RESET}`)
+            if (config.first_failure_exit) {
+                throw new failureExit();
+            }
         }
     }
-    
+
     // Calcualte statistics, display results message
     // Conditions for colours:
     // 100% (all passed) = GREEN
     // >=90% or only 1 test failed, >0 tests passed = YELLOW
     // Otherwise = RED
-    let numTests = i;
+    let numTests = i - numSkipped;
     let testPrecent = Math.round(numSuccess / numTests * 100);
     let colour;
-    if (numSuccess == numTests) {
-        colour = GREEN;
+    if (numSuccess == numTests && numSkipped > 0) {
+        colour = YELLOW_BOLD
+    } else if (numSuccess == numTests) {
+        colour = GREEN_BOLD;
     } else if (testPrecent >= 90 || (numTests - numSuccess == 1 && numSuccess > 0)) {
-        colour = YELLOW;
+        colour = YELLOW_BOLD;
     } else {
-        colour = RED;
+        colour = RED_BOLD;
     }
-    console.log(`${colour}${numSuccess} of ${numTests} tests passed (${testPrecent}%).${RESET}`);
-
+    if (numSkipped > 1) {
+        console.log(`${colour}${numSuccess} of ${numTests} tests passed (${testPrecent}%), ${numSkipped} tests skipped.${RESET}`);
+    } else if (numSkipped == 1) {
+        console.log(`${colour}${numSuccess} of ${numTests} tests passed (${testPrecent}%), 1 test skipped.${RESET}`);
+    } else {
+        console.log(`${colour}${numSuccess} of ${numTests} tests passed (${testPrecent}%).${RESET}`);
+    }
     return testPrecent;
 }
 
@@ -341,7 +365,7 @@ function main() {
     } catch {
         throw new userError("testconfig.json could not be read due to a JSON syntax error. \nIf your code editor supports JSON files, one or more errors may be highlighted.");
     }
-    
+
     vb("Checking configuration file...");
     checkConfig();
     vb("All good.");
@@ -352,24 +376,24 @@ function main() {
     }
     vb("Running tests...");
     let testPercent = runTests();
-    
+
     if (config.scoreExitCode) {
         process.exitCode = 100 - testPercent;
     }
     else if (testPercent != 100) {
         process.exitCode = 1;
-    } 
-    
+    }
+
 }
 
 try {
     main();
 } catch (e) {
     if (e instanceof userError) {
-        console.error(`${RED}${e.message}${RESET}`);
+        console.error(`${RED_BOLD}${e.message}${RESET}`);
         process.exitCode = 128;
     } else if (e instanceof failureExit) {
-        console.log(`${RED}A test failed. Stopping testing.${RESET}`);
+        console.log(`${RED_BOLD}A test failed. Stopping testing.${RESET}`);
         process.exitCode = 1;
     } else {
         throw e;
