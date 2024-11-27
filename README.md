@@ -42,7 +42,7 @@ If any files are missing, or have since been updated to a newer version, you can
 
 ## Latest version
 
-v2.2.0
+v2.2.1
 
 ## Improvements and Contributing
 

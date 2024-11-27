@@ -2,7 +2,7 @@
 
 // test-runner.js
 // A script to automate building and testing of your programs
-// v2.2.0
+// v2.2.1
 // https://github.com/max8539/test-runner
 
 // This script requires Node.js to be installed on your system.
@@ -31,7 +31,7 @@
 // License for the specific language governing permissions and limitations 
 // under the License.
 
-console.log("test-runner.js v2.2.0\n");
+console.log("test-runner.js v2.2.1\n");
 
 class userError extends Error { };
 class failureExit extends Error { };
@@ -43,9 +43,6 @@ let config;
 
 // These character sequences instruct the terminal
 // to display coloured bold text
-const RED_BOLD = "\x1b[31m\x1b[1m";
-const YELLOW_BOLD = "\x1b[33m\x1b[1m";
-const GREEN_BOLD = "\x1b[32m\x1b[1m";
 const BOLD = "\x1b[1m";
 const RED = "\x1b[31m";
 const YELLOW = "\x1b[33m";
@@ -302,6 +299,14 @@ function testRunner(test) {
     return success;
 }
 
+function testStr(num) {
+    if (num == 1) {
+        return "1 test"
+    } else {
+        return `${num} tests`
+    }
+}
+
 // Iterate through all tests, calculate and display final score
 function runTests() {
     let i = 0;
@@ -332,25 +337,31 @@ function runTests() {
     // 100% (all passed) = GREEN
     // >=90% or only 1 test failed, >0 tests passed = YELLOW
     // Otherwise = RED
-    let numTests = i - numSkipped;
-    let testPrecent = Math.round(numSuccess / numTests * 100);
-    let colour;
-    if (numSuccess == numTests && numSkipped > 0) {
-        colour = YELLOW_BOLD
-    } else if (numSuccess == numTests) {
-        colour = GREEN_BOLD;
-    } else if (testPrecent >= 90 || (numTests - numSuccess == 1 && numSuccess > 0)) {
-        colour = YELLOW_BOLD;
+    let testPrecent = 100
+    if (numSkipped == i) {
+        console.log(`${BOLD}${YELLOW}${testStr(0)} run, ${testStr(numSkipped)} skipped.${RESET}`);
     } else {
-        colour = RED_BOLD;
+        let numTests = i - numSkipped;
+        testPrecent = Math.round(numSuccess / numTests * 100);
+
+        let colour;
+        if (numSuccess == numTests && numSkipped > 0) {
+            colour = YELLOW;
+        } else if (numSuccess == numTests) {
+            colour = GREEN;
+        } else if (testPrecent >= 90 || (numTests - numSuccess == 1 && numSuccess > 0)) {
+            colour = YELLOW;
+        } else {
+            colour = RED;
+        }
+
+        if (numSkipped > 0) {
+            console.log(`${BOLD}${colour}${testStr(numTests)} run, ${testStr(numSuccess)} passed (${testPrecent}%), ${testStr(numSkipped)} skipped.${RESET}`);
+        } else {
+            console.log(`${BOLD}${colour}${testStr(numTests)} run, ${testStr(numSuccess)} passed (${testPrecent}%).${RESET}`);
+        }
     }
-    if (numSkipped > 1) {
-        console.log(`${colour}${numSuccess} of ${numTests} tests passed (${testPrecent}%), ${numSkipped} tests skipped.${RESET}`);
-    } else if (numSkipped == 1) {
-        console.log(`${colour}${numSuccess} of ${numTests} tests passed (${testPrecent}%), 1 test skipped.${RESET}`);
-    } else {
-        console.log(`${colour}${numSuccess} of ${numTests} tests passed (${testPrecent}%).${RESET}`);
-    }
+    
     return testPrecent;
 }
 
@@ -390,10 +401,10 @@ try {
     main();
 } catch (e) {
     if (e instanceof userError) {
-        console.error(`${RED_BOLD}${e.message}${RESET}`);
+        console.error(`${BOLD}${RED}${e.message}${RESET}`);
         process.exitCode = 128;
     } else if (e instanceof failureExit) {
-        console.log(`${RED_BOLD}A test failed. Stopping testing.${RESET}`);
+        console.log(`${BOLD}${RED}A test failed. Stopping testing.${RESET}`);
         process.exitCode = 1;
     } else {
         throw e;
